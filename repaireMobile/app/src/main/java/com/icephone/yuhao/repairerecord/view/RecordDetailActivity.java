@@ -79,10 +79,6 @@ public class RecordDetailActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.iv_delete)
-    ImageView ivDelete;
-    @BindView(R.id.iv_edit)
-    ImageView ivEdit;
     @BindView(R.id.bt_submit)
     Button btSubmit;
 
@@ -92,24 +88,12 @@ public class RecordDetailActivity extends BaseActivity {
             TextView siteNameView;
     @BindView(R.id.tv_repair_pro) //维修项目（多选）
             TextView repairProView;
-    @BindView(R.id.tv_repair_person) //维修人员（多选）
-            TextView repairPersonView;
     @BindView(R.id.tv_center_name) //联社名称（单选）
             TextView centerNameView;
     @BindView(R.id.et_fix_state) //维修详情（填写）
             TextView fixStateView;
-    @BindView(R.id.tv_device) //设备明细（多选）
-            TextView deviceView;
     @BindView(R.id.et_site_person) //网点人员（填写）
             EditText sitePersonView;
-    @BindView(R.id.et_return_time) //返厂时间（管理员填写）
-            EditText returnTimeView;
-    @BindView(R.id.tv_return_fix) //是否返厂维修（选择）
-            TextView returnFixView;
-    @BindView(R.id.et_cost) //花费（管理员填写）
-            EditText costView;
-    @BindView(R.id.tv_repair_warranty)
-    TextView warrantyView;
 
     //需要选择的一些选项
     @BindView(R.id.ll_time) //维修时间
@@ -120,14 +104,6 @@ public class RecordDetailActivity extends BaseActivity {
             RelativeLayout rlSiteName;
     @BindView(R.id.rl_repair_pro) // 维修项目
             RelativeLayout rlRepairPro;
-    @BindView(R.id.rl_repair_person) // 维修人员
-            RelativeLayout rlRepairPerson;
-    @BindView(R.id.rl_return_fix) //是否返厂维修
-            RelativeLayout rlReturnFix;
-    @BindView(R.id.rl_device) //选择设备
-            RelativeLayout rlDevice;
-    @BindView(R.id.rl_repair_warranty)
-    RelativeLayout rlRepairWarranty;
 
     @OnClick(R.id.ll_time)
     void showTimeDialog() {
@@ -219,101 +195,6 @@ public class RecordDetailActivity extends BaseActivity {
         }
     }
 
-    @OnClick(R.id.rl_repair_person)
-    void chooseRepairPerson() {
-        //维修人员——多选
-        if (repairManItem == null) {
-            getRepairMan();
-        } else {
-            DialogUtil.showMultiChooseDialog(this, "选择维修人员", repairManItem, repairManItemIsChecked,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            repair_person = StringFormatUtil.ListToString(chooseRepairManResult);
-                            repairPersonView.setText(repair_person.equals("") ? "请选择维修人员" : repair_person);
-                            dialog.dismiss();
-                        }
-                    }, new DialogInterface.OnMultiChoiceClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                            repairManItemIsChecked[which] = isChecked;
-                            if (isChecked) {
-                                chooseRepairManResult.add(repairManItem[which]);
-                            } else {
-                                chooseRepairManResult.remove(repairManItem[which]);
-                            }
-                        }
-                    });
-        }
-    }
-
-    @OnClick(R.id.rl_return_fix)
-    void chooseReturnFix() {
-        final String[] item = {"未返厂维修", "返厂维修"};
-        DialogUtil.showSingleChooseDialog(this, "选择是否返厂", item,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                },
-                new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        return_fix = item[which];
-                        returnFixView.setText(return_fix);
-                    }
-                }
-        );
-    }
-
-    //是否在保修期内
-    @OnClick(R.id.rl_repair_warranty)
-    void chooseIsWarranty() {
-        final String[] item = {"是", "否"};
-        DialogUtil.showSingleChooseDialog(this, "选择是否在保修期内", item,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                },
-                new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        warranty = item[which];
-                        warrantyView.setText(warranty);
-                    }
-                }
-        );
-    }
-
-    @OnClick(R.id.rl_device)
-    void chooseDevice() {
-        // 设备——多选
-        DialogUtil.showMultiChooseDialog(RecordDetailActivity.this, "选择设备", deviceItem, deviceItemIsChecked,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        device = StringFormatUtil.ListToString(chooseDeviceResult);
-                        deviceView.setText(device.equals("") ? "请选择设备" : device);
-                        dialog.dismiss();
-                    }
-                }, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        deviceItemIsChecked[which] = isChecked;
-                        if (isChecked) {
-                            inputDeviceNum(which);
-                        } else {
-                            chooseDeviceResult.remove(deviceItem[which] + deviceNum[which]);
-                        }
-                    }
-                });
-    }
-
     //选择个数
     private void inputDeviceNum(final int position) {
         View view = View.inflate(RecordDetailActivity.this, R.layout.layout_dialog_edit, null);
@@ -332,32 +213,6 @@ public class RecordDetailActivity extends BaseActivity {
                 }
             }
         }, null);
-    }
-
-    @OnClick(R.id.iv_delete)
-    void delete() {
-        if (UserInfoUtil.isSuperManager(getApplicationContext())) {
-            DialogUtil.showAlertDialog(RecordDetailActivity.this, "确定删除吗", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    deleteRecord();
-                }
-            }, null);
-        } else {
-            ToastUtil.showToastShort(this, "只能由总管理员操作");
-        }
-
-    }
-
-    @OnClick(R.id.iv_edit)
-    void editRecord() {
-        if (UserInfoUtil.isSuperManager(getApplicationContext())) {
-            setViewTouchable();
-            ToastUtil.showToastShort(this, "编辑模式");
-        } else {
-            ToastUtil.showToastShort(this, "只能由总管理员操作");
-        }
-
     }
 
     // 上传
@@ -418,29 +273,27 @@ public class RecordDetailActivity extends BaseActivity {
 
     @Override
     public void initView() {
-
-        String keyMode = getIntent().getStringExtra(StringConstant.KEY_MODE);
-        switch (keyMode) {
-            case StringConstant.KEY_ADD_MODE:
-                tvTitle.setText("添加记录");
-                ivDelete.setVisibility(View.GONE);
-                ivEdit.setVisibility(View.GONE);
-                btSubmit.setVisibility(View.VISIBLE);
-                if (!UserInfoUtil.isSuperManager(getApplicationContext())) {
-                    returnTimeView.setFocusable(false);
-                }
-                addRecordView();
-                break;
-            case StringConstant.KEY_FIX_MODE:
-                tvTitle.setText("修改记录");
-                btSubmit.setVisibility(View.VISIBLE);
-                break;
-            case StringConstant.KEY_LOOK_MODE:
-                tvTitle.setText("记录详情");
-                btSubmit.setVisibility(View.GONE);
-                putDataToView();
-                break;
-        }
+        //更新时间
+        addRecordView();
+//        String keyMode = getIntent().getStringExtra(StringConstant.KEY_MODE);
+//        switch (keyMode) {
+//            case StringConstant.KEY_ADD_MODE:
+//                tvTitle.setText("添加记录");
+//                ivDelete.setVisibility(View.GONE);
+//                ivEdit.setVisibility(View.GONE);
+//                btSubmit.setVisibility(View.VISIBLE);
+//                addRecordView();
+//                break;
+//            case StringConstant.KEY_FIX_MODE:
+//                tvTitle.setText("修改记录");
+//                btSubmit.setVisibility(View.VISIBLE);
+//                break;
+//            case StringConstant.KEY_LOOK_MODE:
+//                tvTitle.setText("记录详情");
+//                btSubmit.setVisibility(View.GONE);
+//                putDataToView();
+//                break;
+//        }
 
     }
 
@@ -494,8 +347,6 @@ public class RecordDetailActivity extends BaseActivity {
             ToastUtil.showToastShort(this, "请选择是否返厂维修");
             return false;
         }
-        fix_cost = costView.getText().toString().equals("") ? 0 : Integer.valueOf(costView.getText().toString());
-        return_time = returnTimeView.getText().toString().equals("") ? "未填写" : returnTimeView.getText().toString();
         return true;
     }
 
@@ -527,29 +378,11 @@ public class RecordDetailActivity extends BaseActivity {
         repair_pro = bean.getRepair_pro();
         repairProView.setText(repair_pro);
 
-        repair_person = bean.getRepair_person();
-        repairPersonView.setText(repair_person);
-
         site_person = bean.getSite_person();
         sitePersonView.setText(site_person);
 
-        device = bean.getDevice();
-        deviceView.setText(device);
-
         fix_state = bean.getFix_state();
         fixStateView.setText(fix_state);
-
-        fix_cost = bean.getFix_cost();
-        costView.setText(String.valueOf(fix_cost));
-
-        return_fix = bean.getReturn_fix();
-        returnFixView.setText(return_fix);
-
-        return_time = bean.getReturn_time();
-        returnTimeView.setText(return_time);
-
-        warranty = bean.getWarranty();
-        warrantyView.setText(warranty);
 
         setViewUntouchable();
     }
@@ -562,15 +395,9 @@ public class RecordDetailActivity extends BaseActivity {
         rlCenterName.setEnabled(false);
         rlSiteName.setEnabled(false);
         rlRepairPro.setEnabled(false);
-        rlRepairPerson.setEnabled(false);
-        rlReturnFix.setEnabled(false);
-        rlDevice.setEnabled(false);
-        rlRepairWarranty.setEnabled(false);
 
-        returnTimeView.setFocusable(false);
         sitePersonView.setFocusable(false);
         fixStateView.setFocusable(false);
-        costView.setFocusable(false);
     }
 
     /**
@@ -582,15 +409,7 @@ public class RecordDetailActivity extends BaseActivity {
         rlCenterName.setEnabled(true);
         rlSiteName.setEnabled(true);
         rlRepairPro.setEnabled(true);
-        rlRepairPerson.setEnabled(true);
-        rlReturnFix.setEnabled(true);
-        rlDevice.setEnabled(true);
-        rlRepairWarranty.setEnabled(true);
 
-        returnTimeView.setFocusable(true);
-        returnTimeView.setFocusableInTouchMode(true);
-        costView.setFocusable(true);
-        costView.setFocusableInTouchMode(true);
         sitePersonView.setFocusable(true);
         sitePersonView.setFocusableInTouchMode(true);
         fixStateView.setFocusable(true);

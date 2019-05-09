@@ -54,7 +54,42 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="选择联社："
+                android:text="选择维修状态："
+                android:textSize="@dimen/y26" />
+
+            <RelativeLayout
+                android:id="@+id/rl_cur_state"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y90"
+                android:layout_marginTop="@dimen/y20"
+                android:background="@drawable/bg_gray_line"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_center_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/x20"
+                    android:layout_marginStart="@dimen/x20"
+                    android:text="请选择维修状态"
+                    android:textColor="@color/gray_ccc" />
+
+                <ImageView
+                    android:layout_width="@dimen/x30"
+                    android:layout_height="@dimen/y30"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/x30"
+                    android:src="@drawable/ic_forward" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请选择公寓："
                 android:textSize="@dimen/y26" />
 
             <RelativeLayout
@@ -72,7 +107,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/x20"
                     android:layout_marginStart="@dimen/x20"
-                    android:text="请选择联社"
+                    android:text="请选择公寓"
                     android:textColor="@color/gray_ccc" />
 
                 <ImageView
