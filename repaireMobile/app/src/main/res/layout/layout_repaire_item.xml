@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/white"
+    android:layout_marginTop="1dp"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/y150">
+
+    <TextView
+        android:id="@+id/tv_site_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/x40"
+        android:layout_marginLeft="@dimen/x30"
+        android:layout_marginTop="@dimen/y26"
+        android:text="南王庄分社"
+        android:textColor="@color/black"
+        android:textSize="@dimen/y30" />
+
+    <TextView
+        android:id="@+id/tv_center_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_site_name"
+        android:layout_marginStart="@dimen/x20"
+        android:layout_marginLeft="@dimen/x20"
+        android:layout_toEndOf="@+id/tv_site_name"
+        android:layout_toRightOf="@+id/tv_site_name"
+        android:text="清苑联社"
+        android:textColor="@color/colorBlack666"
+        android:textSize="@dimen/y28" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tv_site_name"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="@dimen/x50"
+        android:layout_marginLeft="@dimen/x50"
+        android:layout_marginEnd="@dimen/x70"
+        android:layout_marginRight="@dimen/x70"
+        android:text="2018年09月10日"
+        android:textColor="@color/gray_999" />
+
+    <TextView
+        android:id="@+id/tv_repair_pro"
+        android:layout_width="@dimen/x600"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_site_name"
+        android:layout_alignStart="@+id/tv_site_name"
+        android:layout_alignLeft="@+id/tv_site_name"
+        android:layout_marginTop="@dimen/y16"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="维修电视，对讲机、监控，更换电源1个"
+        android:textColor="@color/gray_999"
+        android:textSize="@dimen/y26" />
+
+    <ImageView
+        android:layout_width="@dimen/x30"
+        android:layout_height="@dimen/y30"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/x30"
+        android:layout_marginRight="@dimen/x30"
+        android:contentDescription="forword"
+        android:src="@drawable/ic_forward" />
+
+
+</RelativeLayout>

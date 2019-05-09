@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/pageBackground"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.InstallRecordDetailActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@+id/rl_back"
+            android:layout_width="40dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_return" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/addInstallRecord"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/iv_edit"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_toLeftOf="@+id/iv_delete"
+            android:layout_toStartOf="@+id/iv_delete"
+            android:src="@drawable/ic_edit" />
+
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="7dp"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_delete" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/y35"
+        android:id="@+id/ll_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="@dimen/x40"
+            android:layout_height="@dimen/y40"
+            android:src="@drawable/ic_time" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x20"
+            android:text="时间：2018年9月20日"
+            android:textColor="@color/colorBlack666"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="@dimen/x30"
+            android:layout_height="@dimen/y30"
+            android:layout_marginLeft="@dimen/x20"
+            android:src="@drawable/ic_forward" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_marginTop="@dimen/y15"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/y20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/y20"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x30"
+                android:layout_marginRight="@dimen/x30"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/x30"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="选择联社："
+                        android:textSize="@dimen/y26" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_center_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y90"
+                        android:layout_marginTop="@dimen/y20"
+                        android:background="@drawable/bg_gray_line"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_center_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/x20"
+                            android:layout_marginStart="@dimen/x20"
+                            android:text="请选择联社"
+                            android:textSize="@dimen/y28"
+                            android:textColor="@color/black" />
+
+                        <ImageView
+                            android:layout_width="@dimen/x30"
+                            android:layout_height="@dimen/y30"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/x30"
+                            android:src="@drawable/ic_forward" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/y20"
+                        android:text="网点名称："
+                        android:textSize="@dimen/y26" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_site_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y90"
+                        android:layout_marginTop="@dimen/y20"
+                        android:background="@drawable/bg_gray_line"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_site_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/x20"
+                            android:layout_marginStart="@dimen/x20"
+                            android:text="请选择网点"
+                            android:textSize="@dimen/y28"
+                            android:textColor="@color/black" />
+
+                        <ImageView
+                            android:layout_width="@dimen/x30"
+                            android:layout_height="@dimen/y30"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/x30"
+                            android:src="@drawable/ic_forward" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/y20"
+                        android:text="网点人员："
+                        android:textSize="@dimen/y26" />
+
+                    <EditText
+                        android:id="@+id/et_site_person"
+                        android:textSize="@dimen/y28"
+                        android:hint="请输入网点人员"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y90"
+                        android:layout_marginTop="@dimen/y20"
+                        android:background="@drawable/bg_gray_line"
+                        android:paddingLeft="@dimen/x20"
+                        android:paddingStart="@dimen/x20" />
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x30"
+                android:layout_marginRight="@dimen/x30"
+                android:layout_marginTop="@dimen/y20"
+                android:layout_marginBottom="@dimen/y10"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/x30"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/y20"
+                        android:text="安装人员："
+                        android:textSize="@dimen/y26" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_install_person"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y90"
+                        android:layout_marginTop="@dimen/y20"
+                        android:background="@drawable/bg_gray_line"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_install_person"
+                            android:layout_width="@dimen/x530"
+                            android:layout_height="@dimen/y200"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/x20"
+                            android:layout_marginStart="@dimen/x20"
+                            android:gravity="center_vertical"
+                            android:text="请选择安装人员"
+                            android:maxLines="3"
+                            android:textSize="@dimen/y28"
+                            android:textColor="@color/black" />
+
+                        <ImageView
+                            android:layout_width="@dimen/x30"
+                            android:layout_height="@dimen/y30"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/x30"
+                            android:src="@drawable/ic_forward" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/y20"
+                        android:text="安装项目："
+                        android:textSize="@dimen/y26" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_install_pro"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y90"
+                        android:layout_marginTop="@dimen/y20"
+                        android:background="@drawable/bg_gray_line"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_install_pro"
+                            android:layout_width="@dimen/x530"
+                            android:layout_height="@dimen/y200"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/x20"
+                            android:layout_marginStart="@dimen/x20"
+                            android:gravity="center_vertical"
+                            android:text="请选择安装项目"
+                            android:maxLines="3"
+                            android:textSize="@dimen/y28"
+                            android:textColor="@color/black" />
+
+                        <ImageView
+                            android:layout_width="@dimen/x30"
+                            android:layout_height="@dimen/y30"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/x30"
+                            android:src="@drawable/ic_forward" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/y20"
+                        android:text="设备详细："
+                        android:textSize="@dimen/y26" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_install_device"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y90"
+                        android:layout_marginTop="@dimen/y20"
+                        android:background="@drawable/bg_gray_line"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_install_device"
+                            android:layout_width="@dimen/x530"
+                            android:layout_height="@dimen/y200"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/x20"
+                            android:layout_marginStart="@dimen/x20"
+                            android:gravity="center_vertical"
+                            android:text="请选择设备"
+                            android:maxLines="3"
+                            android:textSize="@dimen/y28"
+                            android:textColor="@color/black" />
+
+                        <ImageView
+                            android:layout_width="@dimen/x30"
+                            android:layout_height="@dimen/y30"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/x30"
+                            android:src="@drawable/ic_forward" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/y20"
+                        android:text="安装详情："
+                        android:textSize="@dimen/y26" />
+
+                    <EditText
+                        android:id="@+id/et_install_state"
+                        android:textSize="@dimen/y28"
+                        android:hint="请输入维修详情"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y90"
+                        android:layout_marginTop="@dimen/y20"
+                        android:background="@drawable/bg_gray_line"
+                        android:paddingLeft="@dimen/x20"
+                        android:paddingStart="@dimen/x20" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/y20"
+                        android:text="是否完工："
+                        android:textSize="@dimen/y26" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_install_complete"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y90"
+                        android:layout_marginTop="@dimen/y20"
+                        android:background="@drawable/bg_gray_line"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_install_complete"
+                            android:layout_width="@dimen/x530"
+                            android:layout_height="@dimen/y200"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/x20"
+                            android:layout_marginStart="@dimen/x20"
+                            android:gravity="center_vertical"
+                            android:text="请选择是否完工"
+                            android:maxLines="3"
+                            android:textSize="@dimen/y28"
+                            android:textColor="@color/black" />
+
+                        <ImageView
+                            android:layout_width="@dimen/x30"
+                            android:layout_height="@dimen/y30"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/x30"
+                            android:src="@drawable/ic_forward" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/y20"
+                        android:text="费用统计：（元）"
+                        android:textSize="@dimen/y26" />
+
+                    <EditText
+                        android:id="@+id/et_install_cost"
+                        android:textSize="@dimen/y28"
+                        android:hint="请输入费用"
+                        android:inputType="number"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y90"
+                        android:layout_marginTop="@dimen/y20"
+                        android:background="@drawable/bg_gray_line"
+                        android:paddingLeft="@dimen/x20" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <Button
+                android:id="@+id/bt_submit"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y100"
+                android:layout_marginTop="@dimen/y10"
+                android:layout_marginBottom="@dimen/y40"
+                android:layout_marginLeft="@dimen/x30"
+                android:layout_marginRight="@dimen/x30"
+                android:background="@drawable/bg_green_full"
+                android:text="提交"
+                android:textColor="@color/white"
+                android:textSize="@dimen/y35" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

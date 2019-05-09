@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.SearchInstallActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@+id/rl_back"
+            android:layout_width="40dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_return" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/searchInstallRecord"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.CardView
+        android:layout_marginTop="@dimen/y20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x30"
+        android:layout_marginRight="@dimen/x30"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/x30"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="选择联社："
+                android:textSize="@dimen/y26" />
+
+            <RelativeLayout
+                android:id="@+id/rl_center_name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y90"
+                android:layout_marginTop="@dimen/y20"
+                android:background="@drawable/bg_gray_line"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_center_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/x20"
+                    android:layout_marginStart="@dimen/x20"
+                    android:text="请选择联社"
+                    android:textColor="@color/gray_ccc" />
+
+                <ImageView
+                    android:layout_width="@dimen/x30"
+                    android:layout_height="@dimen/y30"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/x30"
+                    android:src="@drawable/ic_forward" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y20"
+                android:text="开始时间："
+                android:textSize="@dimen/y26" />
+
+            <RelativeLayout
+                android:id="@+id/rl_start_time"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y90"
+                android:layout_marginTop="@dimen/y20"
+                android:background="@drawable/bg_gray_line"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_start_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/x20"
+                    android:layout_marginStart="@dimen/x20"
+                    android:text="请选择查询开始时间"
+                    android:textColor="@color/gray_ccc" />
+
+                <ImageView
+                    android:layout_width="@dimen/x30"
+                    android:layout_height="@dimen/y30"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/x30"
+                    android:src="@drawable/ic_forward" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y20"
+                android:text="终止时间："
+                android:textSize="@dimen/y26" />
+
+            <RelativeLayout
+                android:id="@+id/rl_end_time"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y90"
+                android:layout_marginTop="@dimen/y20"
+                android:background="@drawable/bg_gray_line"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_end_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/x20"
+                    android:layout_marginStart="@dimen/x20"
+                    android:text="请查询终止时间"
+                    android:textColor="@color/gray_ccc" />
+
+                <ImageView
+                    android:layout_width="@dimen/x30"
+                    android:layout_height="@dimen/y30"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/x30"
+                    android:src="@drawable/ic_forward" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+    <Button
+        android:id="@+id/bt_search"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y100"
+        android:layout_margin="@dimen/x30"
+        android:background="@drawable/bg_green_full"
+        android:text="查询"
+        android:textColor="@color/white"
+        android:textSize="@dimen/y35" />
+
+
+</LinearLayout>
