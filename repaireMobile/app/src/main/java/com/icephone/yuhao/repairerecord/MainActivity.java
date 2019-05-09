@@ -32,7 +32,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    //查找安装记录
+    //待维修记录
     @OnClick(R.id.cv_search_install)
     void searchInstall() {
         if(UserInfoUtil.isCenterManager(this) || UserInfoUtil.isSuperManager(this)){
@@ -42,7 +42,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    //上传维修记录
+    //申请维修
     @OnClick(R.id.cv_add_record)
     void addRecord() {
         if(UserInfoUtil.isRepairMan(this) || UserInfoUtil.isSuperManager(this)){
@@ -55,38 +55,6 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    //上传安装记录
-    @OnClick(R.id.cv_install)
-    void manageRepairPro() {
-        if(UserInfoUtil.isRepairMan(this) || UserInfoUtil.isSuperManager(this)){
-            Bundle bundle = new Bundle();
-            bundle.putString(StringConstant.KEY_MODE,StringConstant.KEY_ADD_MODE);
-            openActivity(InstallRecordDetailActivity.class,bundle);
-        } else{
-            ToastUtil.showToastShort(this,"无权进行查看");
-        }
-    }
-
-    //联社管理
-    @OnClick(R.id.cv_manage_center)
-    void manageCenter() {
-        if(UserInfoUtil.isSuperManager(this)){
-            openActivity(CenterListActivity.class);
-        }else {
-            ToastUtil.showToastShort(this,"无权进行查看");
-        }
-    }
-
-    //维修项目管理
-    @OnClick(R.id.cv_repair_pro)
-    void repairProject() {
-        if(UserInfoUtil.isSuperManager(this)){
-            openActivity(ManageRepairProActivity.class);
-        }else {
-            ToastUtil.showToastShort(this,"无权进行查看");
-        }
-    }
-
     //人员管理
     @OnClick(R.id.cv_manage_people)
     void managePeople() {
@@ -96,17 +64,6 @@ public class MainActivity extends BaseActivity {
             ToastUtil.showToastShort(this,"无权进行查看");
         }
     }
-
-    //网点管理：改为从联社管理页面进入
-//    @OnClick(R.id.cv_site_manage)
-//    void manageSite() {
-//        if(UserInfoUtil.isSuperManager(this)){
-//            openActivity(ManageSiteActivity.class);
-//
-//        }else {
-//            ToastUtil.showToastShort(this,"无权进行查看");
-//        }
-//    }
 
     //设备管理
     @OnClick(R.id.cv_manage_fitting)

@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">固弘安防</string>
+    <string name="app_name">寝室维修站</string>
     <string name="centerManage">联社管理</string>
-    <string name="addRecord">维修记录</string>
+    <string name="addRecord">申请维修</string>
     <string name="searchRecord">查询维修记录</string>
-    <string name="searchInstallRecord">查询安装记录</string>
+    <string name="searchInstallRecord">待修理记录</string>
     <string name="searchResult">维修记录</string>
     <string name="searchInstallResult">安装记录</string>
     <string name="hint_site_name">请输入网点全称</string>

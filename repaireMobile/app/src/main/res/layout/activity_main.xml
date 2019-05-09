@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="保定固弘安防"
+            android:text="寝室维修站"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp" />
 
@@ -149,50 +149,10 @@
         android:orientation="horizontal">
 
         <android.support.v7.widget.CardView
-            android:id="@+id/cv_install"
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="3dp">
-
-            <RelativeLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/iv_install"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="25dp"
-                    android:src="@drawable/ic_install" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/iv_install"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/manageInstall"
-                    android:textColor="@color/black" />
-
-            </RelativeLayout>
-
-
-        </android.support.v7.widget.CardView>
-
-
-        <android.support.v7.widget.CardView
             android:id="@+id/cv_manage_fitting"
             android:layout_width="0dp"
             android:layout_height="120dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_margin="10dp"
             android:layout_weight="1"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="10dp"
@@ -224,55 +184,12 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/cv_repair_pro"
+            android:id="@+id/cv_manage_people"
             android:layout_width="0dp"
             android:layout_height="120dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="3dp">
-
-            <RelativeLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/iv_repair_pro"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="25dp"
-                    android:src="@drawable/ic_repair_pro" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/iv_repair_pro"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/repairPro"
-                    android:textColor="@color/black" />
-
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/cv_manage_people"
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:layout_margin="10dp"
             android:layout_weight="1"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="10dp"
@@ -301,46 +218,57 @@
 
             </RelativeLayout>
 
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/cv_manage_center"
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="3dp">
-
-            <RelativeLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/iv_manage_center"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="25dp"
-                    android:src="@drawable/ic_center" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/iv_manage_center"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/centerManage"
-                    android:textColor="@color/black" />
-
-            </RelativeLayout>
 
 
         </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:text="如在使用过程中遇到问题，\n 请联系邮箱：hit-dormitory@163.com"
+        android:layout_height="wrap_content" />
+
+        <!--<android.support.v7.widget.CardView-->
+            <!--android:id="@+id/cv_manage_center"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="120dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_marginEnd="10dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_weight="1"-->
+            <!--app:cardBackgroundColor="@color/white"-->
+            <!--app:cardCornerRadius="10dp"-->
+            <!--app:cardElevation="3dp">-->
+
+            <!--<RelativeLayout-->
+
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/iv_manage_center"-->
+                    <!--android:layout_width="50dp"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:layout_centerHorizontal="true"-->
+                    <!--android:layout_marginTop="25dp"-->
+                    <!--android:src="@drawable/ic_center" />-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_below="@+id/iv_manage_center"-->
+                    <!--android:layout_centerInParent="true"-->
+                    <!--android:layout_marginTop="5dp"-->
+                    <!--android:text="@string/centerManage"-->
+                    <!--android:textColor="@color/black" />-->
+
+            <!--</RelativeLayout>-->
+
+
+        <!--</android.support.v7.widget.CardView>-->
 
         <!--<android.support.v7.widget.CardView-->
             <!--android:id="@+id/cv_site_manage"-->
@@ -379,7 +307,5 @@
             <!--</RelativeLayout>-->
 
         <!--</android.support.v7.widget.CardView>-->
-
-    </LinearLayout>
 
 </LinearLayout>

@@ -67,6 +67,7 @@ fastlane/readme.md
 .idea/workspace.xml
 .idea/dictionaries/myj.xml
 .idea/
+node
 .DS_Store
 *.classpath
 *.project
