@@ -16,6 +16,7 @@ import com.icephone.yuhao.repairerecord.view.ManageSiteActivity;
 import com.icephone.yuhao.repairerecord.view.RecordDetailActivity;
 import com.icephone.yuhao.repairerecord.view.SearchInstallActivity;
 import com.icephone.yuhao.repairerecord.view.SearchRecordActivity;
+import com.icephone.yuhao.repairerecord.view.UnrepairRecordActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -36,7 +37,7 @@ public class MainActivity extends BaseActivity {
     @OnClick(R.id.cv_search_install)
     void searchInstall() {
         if(UserInfoUtil.isCenterManager(this) || UserInfoUtil.isSuperManager(this)){
-            openActivity(SearchInstallActivity.class);
+            openActivity(UnrepairRecordActivity.class);
         }else{
             ToastUtil.showToastShort(this,"无权进行查看");
         }
