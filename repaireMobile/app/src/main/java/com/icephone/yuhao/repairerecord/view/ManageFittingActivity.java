@@ -33,7 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ManageFittingAvtivity extends BaseActivity {
+public class ManageFittingActivity extends BaseActivity {
 
     @OnClick(R.id.fl_add)
     void add() {
@@ -45,7 +45,7 @@ public class ManageFittingAvtivity extends BaseActivity {
             public void onClick(DialogInterface dialog, int which) {
                 String newCenterName = editText.getText() == null ? "" : editText.getText().toString();
                 if (newCenterName.equals("")) {
-                    ToastUtil.showToastShort(ManageFittingAvtivity.this, "请输入设备名称");
+                    ToastUtil.showToastShort(ManageFittingActivity.this, "请输入设备名称");
                 } else {
                     ApiBuilder builder = new ApiBuilder().Url(URLConstant.DEVICE_ADD)
                             .Params("device_name", newCenterName);
@@ -62,7 +62,7 @@ public class ManageFittingAvtivity extends BaseActivity {
 
                         }
                     }, GetResultBean.class);
-                    ToastUtil.showToastShort(ManageFittingAvtivity.this, "添加成功");
+                    ToastUtil.showToastShort(ManageFittingActivity.this, "添加成功");
                     dialog.dismiss();
                 }
             }
@@ -98,7 +98,7 @@ public class ManageFittingAvtivity extends BaseActivity {
         deviceAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(BaseQuickAdapter adapter, View view, final int position) {
-                DialogUtil.showAlertDialog(ManageFittingAvtivity.this, "确定删除吗", new DialogInterface.OnClickListener() {
+                DialogUtil.showAlertDialog(ManageFittingActivity.this, "确定删除吗", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         deleteItem(position);
@@ -129,13 +129,13 @@ public class ManageFittingAvtivity extends BaseActivity {
 //                        rvSiteList.setAdapter(siteAdapter);
                     }
                 } else {
-                    ToastUtil.showToastShort(ManageFittingAvtivity.this, "查询失败请重试");
+                    ToastUtil.showToastShort(ManageFittingActivity.this, "查询失败请重试");
                 }
             }
 
             @Override
             public void onFail(String msg) {
-                ToastUtil.showToastShort(ManageFittingAvtivity.this, "查询失败请重试");
+                ToastUtil.showToastShort(ManageFittingActivity.this, "查询失败请重试");
             }
         }, DeviceBean.class);
     }
@@ -150,13 +150,14 @@ public class ManageFittingAvtivity extends BaseActivity {
                 if (data.getCode() == URLConstant.SUCCUSS_CODE) {
                     deviceAdapter.remove(position);
                 }
-                ToastUtil.showToastShort(ManageFittingAvtivity.this, data.getMsg());
+                ToastUtil.showToastShort(ManageFittingActivity.this, data.getMsg());
             }
 
             @Override
             public void onFail(String msg) {
-                ToastUtil.showToastShort(ManageFittingAvtivity.this, msg + "请重试");
+                ToastUtil.showToastShort(ManageFittingActivity.this, msg + "请重试");
             }
         }, GetResultBean.class);
     }
 }
+

@@ -9,7 +9,7 @@ import com.icephone.yuhao.repairerecord.Util.UserInfoUtil;
 import com.icephone.yuhao.repairerecord.view.BaseActivity;
 import com.icephone.yuhao.repairerecord.view.CenterListActivity;
 import com.icephone.yuhao.repairerecord.view.InstallRecordDetailActivity;
-import com.icephone.yuhao.repairerecord.view.ManageFittingAvtivity;
+import com.icephone.yuhao.repairerecord.view.ManageFittingActivity;
 import com.icephone.yuhao.repairerecord.view.ManagePeopleActivity;
 import com.icephone.yuhao.repairerecord.view.ManageRepairProActivity;
 import com.icephone.yuhao.repairerecord.view.ManageSiteActivity;
@@ -35,7 +35,7 @@ public class MainActivity extends BaseActivity {
 
     //待维修记录
     @OnClick(R.id.cv_search_install)
-    void searchInstall() {
+    void searchNotFix() {
         if(UserInfoUtil.isCenterManager(this) || UserInfoUtil.isSuperManager(this)){
             openActivity(UnrepairRecordActivity.class);
         }else{
@@ -70,7 +70,7 @@ public class MainActivity extends BaseActivity {
     @OnClick(R.id.cv_manage_fitting)
     void manageFitting() {
         if(UserInfoUtil.isSuperManager(this)){
-            openActivity(ManageFittingAvtivity.class);
+            openActivity(ManageFittingActivity.class);
         }else {
             ToastUtil.showToastShort(this,"无权进行查看");
         }

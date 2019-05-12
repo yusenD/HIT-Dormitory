@@ -33,8 +33,8 @@
         <activity android:name=".view.ManagePeopleActivity" />
         <activity android:name=".view.ManageRepairProActivity" />
         <activity android:name=".view.ManageSiteActivity" />
-        <activity android:name=".view.ManageFittingAvtivity" />
         <activity android:name=".view.InstallRecordDetailActivity" />
+        <activity android:name=".view.ManageFittingActivity" />
         <activity android:name=".view.PeopleDetailActivity" /> <!-- <activity -->
         <!-- android:name=".LoginActivity" -->
         <!-- android:label="@string/title_activity_login"></activity> -->
