@@ -131,7 +131,7 @@ public class SearchRecordActivity extends BaseActivity {
         bundle.putString(StringConstant.KEY_SEARCH_CUR_STATE,curState);
         bundle.putString(StringConstant.KEY_SEARCH_START_TIME, startTime);
         bundle.putString(StringConstant.KEY_SEARCH_END_TIME, endTime);
-        
+
         openActivity(ResultActivity.class, bundle);
     }
 

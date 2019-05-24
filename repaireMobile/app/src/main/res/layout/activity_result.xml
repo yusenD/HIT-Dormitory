@@ -34,17 +34,6 @@
             android:textColor="@color/colorPrimary"
             android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/tv_output"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/x30"
-            android:text="导出"
-            android:textColor="@color/colorPrimary"
-            android:textSize="16sp" />
-
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

@@ -19,10 +19,10 @@ public class RepairRecordAdapter extends BaseQuickAdapter<RepairRecordBean.DataB
 
     @Override
     protected void convert(BaseViewHolder helper, RepairRecordBean.DataBean item) {
-        helper.setText(R.id.tv_center_name, item.getCenter_name())
+        helper.setText(R.id.tv_center_name, item.getDormitory_name())
                 .setText(R.id.tv_site_name, item.getSite_name())
-                .setText(R.id.tv_time, TimeUtil.transferTimeToShow(item.getTime()))
-                .setText(R.id.tv_repair_pro, item.getRepair_pro());
+                .setText(R.id.tv_time, TimeUtil.transferTimeToShow(item.getStart_time()))
+                .setText(R.id.tv_repair_pro, item.getDevice());
     }
 
 }

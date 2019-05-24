@@ -52,7 +52,7 @@ public class LoginBean {
         private String _id;
         private String account;
         private String site_name;
-        private int permission;
+        private String permission;
         private String nick_name;
         private String dormitory_name;
         private String password;
@@ -81,11 +81,11 @@ public class LoginBean {
             this.site_name = site_name;
         }
 
-        public int getPermission() {
+        public String getPermission() {
             return permission;
         }
 
-        public void setPermission(int permission) {
+        public void setPermission(String permission) {
             this.permission = permission;
         }
 

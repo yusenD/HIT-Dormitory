@@ -26,27 +26,19 @@ public class MainActivity extends BaseActivity {
     //查找维修记录
     @OnClick(R.id.cv_search_record)
     void searchRecord() {
-        if(UserInfoUtil.isCenterManager(this) || UserInfoUtil.isSuperManager(this)){
-            openActivity(SearchRecordActivity.class);
-        }else{
-            ToastUtil.showToastShort(this,"无权进行查看");
-        }
+        openActivity(SearchRecordActivity.class);
     }
 
     //待维修记录
     @OnClick(R.id.cv_search_install)
     void searchNotFix() {
-        if(UserInfoUtil.isCenterManager(this) || UserInfoUtil.isSuperManager(this)){
-            openActivity(UnrepairRecordActivity.class);
-        }else{
-            ToastUtil.showToastShort(this,"无权进行查看");
-        }
+        openActivity(UnrepairRecordActivity.class);
     }
 
     //申请维修
     @OnClick(R.id.cv_add_record)
     void addRecord() {
-        if(UserInfoUtil.isRepairMan(this) || UserInfoUtil.isSuperManager(this)){
+        if(UserInfoUtil.isStudent(this) || UserInfoUtil.isSuperManager(this)){
             Bundle bundle = new Bundle();
             bundle.putString(StringConstant.KEY_MODE,StringConstant.KEY_ADD_MODE);
             openActivity(RecordDetailActivity.class,bundle);

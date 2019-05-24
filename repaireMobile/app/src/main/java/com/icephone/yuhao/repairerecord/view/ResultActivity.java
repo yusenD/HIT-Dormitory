@@ -36,11 +36,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class ResultActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
+public class ResultActivity extends BaseActivity {
 
-    private final int READ_WRITE_MEMORY = 0;
-
-    final String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "固弘安防";
+//    private final int READ_WRITE_MEMORY = 0;
+//    final String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "固弘安防";
 
     @BindView(R.id.rv_record_list)
     RecyclerView rvRecordList;
@@ -48,13 +47,6 @@ public class ResultActivity extends BaseActivity implements EasyPermissions.Perm
     @OnClick(R.id.rl_back)
     void back() {
         onBackPressed();
-    }
-
-    @OnClick(R.id.tv_output)
-    void output() {
-        // TODO 导出文件和权限
-        ToastUtil.showToastShort(this,"导出文件");
-        requestReadFilePermissions();
     }
 
     private RepairRecordAdapter recordAdapter;
@@ -94,49 +86,26 @@ public class ResultActivity extends BaseActivity implements EasyPermissions.Perm
         refreshList();
     }
 
-    /**
-     * 申请查看相册权限
-     */
-    private void requestReadFilePermissions() {
-        String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}; //读写权限
-        //判断有没有权限读写权限
-        if (EasyPermissions.hasPermissions(this, perms)) {
-            // 如果有权限了
-            //TODO 进行导入
-            Log.i("permission", "打开权限");
-            outputFile();
-        } else {
-            // 如果没有权限, 就去申请权限
-            // this: 上下文
-            // Dialog显示的正文
-            // RC_CAMERA_AND_RECORD_AUDIO 请求码, 用于回调的时候判断是哪次申请
-            // perms 就是你要申请的权限
-            EasyPermissions.requestPermissions(this, "需要写入文件权限", READ_WRITE_MEMORY, perms);
-        }
-    }
-
-    private void outputFile() {
-
-        String fileName = buildFileName();
-        Log.i("file_name", fileName);
-
-        String[] title = {"时间", "联社名称", "网点全称", "网点人员", "维修人员","维修项目","是否在保修期内","更换设备明细","维修详细","是否返厂维修","设备返厂情况","维修费"};
-        OutputEXLUtil.initExcel(fileName, title);
-        OutputEXLUtil.writeRepairListToExcel(recordBeanList, fileName, ResultActivity.this);
-    }
-
     //查询列表
-    private String centerNameSearch, startTimeSearch, endTimeSearch;
     private void refreshList() {
-        centerNameSearch = getIntent().getStringExtra(StringConstant.KEY_SEARCH_CENTER_NAME);
+
+        String centerNameSearch, startTimeSearch, endTimeSearch,curStateSearch,siteNameSearch;
+
+        centerNameSearch = getIntent().getStringExtra(StringConstant.KEY_SEARCH_DORMITORY_NAME);
+        siteNameSearch = getIntent().getStringExtra(StringConstant.KEY_SEARCH_SITE_NAME);
         startTimeSearch = getIntent().getStringExtra(StringConstant.KEY_SEARCH_START_TIME);
         endTimeSearch = getIntent().getStringExtra(StringConstant.KEY_SEARCH_END_TIME);
+        curStateSearch = getIntent().getStringExtra(StringConstant.KEY_SEARCH_CUR_STATE);
+
 //        Log.i("维修查询参数Result", centerName + ":" + startTime + "--" + endTime);
 
         ApiBuilder builder = new ApiBuilder().Url(URLConstant.REPAIR_GET_LIST)
-                .Params("center_name", centerNameSearch)
+                .Params("dormitory_name", centerNameSearch)
+                .Params("site_name",siteNameSearch)
+                .Params("fix_state",curStateSearch)
                 .Params("start_time", startTimeSearch)
                 .Params("end_time", endTimeSearch);
+
         ApiClient.getInstance().doGet(builder, new CallBack<RepairRecordBean>() {
             @Override
             public void onResponse(RepairRecordBean data) {
@@ -158,50 +127,4 @@ public class ResultActivity extends BaseActivity implements EasyPermissions.Perm
         }, RepairRecordBean.class);
     }
 
-    private String buildFileName() {
-
-        File file = new File(path);
-        //文件夹是否已经存在
-        if (!file.exists()) {
-            file.mkdirs();
-        }
-
-        StringBuilder fileName = new StringBuilder();
-        fileName.append(file.toString()).append("/");
-        //联社
-        if (centerNameSearch.equals(StringConstant.NULL_STRING)){
-            fileName.append("全部联社").append("-");
-        }else{
-            fileName.append(centerNameSearch).append("-");
-        }
-        //开始时间
-        if (startTimeSearch.equals(StringConstant.NULL_STRING)){
-            fileName.append("2018年1月1日").append("-");
-        }else{
-            fileName.append(startTimeSearch).append("-");
-        }
-        //结束时间
-        if (endTimeSearch.equals(StringConstant.NULL_STRING)){
-            fileName.append(TimeUtil.getCurTime()).append("-");
-        }else{
-            fileName.append(endTimeSearch).append("-");
-        }
-        fileName.append("维修记录.xls");
-        return fileName.toString();
-    }
-
-    /**
-     * 同意写文件权限
-     * @param requestCode
-     * @param perms
-     */
-    @Override
-    public void onPermissionsGranted(int requestCode, List<String> perms) {
-        outputFile();
-    }
-
-    @Override
-    public void onPermissionsDenied(int requestCode, List<String> perms) {
-
-    }
 }
