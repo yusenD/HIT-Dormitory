@@ -6,6 +6,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -55,18 +56,19 @@ public class RecordDetailActivity extends BaseActivity {
 
     private Calendar calendar = Calendar.getInstance(); //获取当前时间
     private String _id = "";
-    private String time = ""; //选择的时间，默认是当前时间
-    private String site_name = "";
-    private String repair_pro = "";
-    private String repair_person = "";
-    private String site_person = "";
-    private String center_name = "";
+    private String person_phone = ""; // 申请人电话
+    private String site_person = ""; //申请人
+    private String fix_state = ""; //维修详情
+    private String dormitory_name = ""; //公寓
+    private String site_name = ""; //宿舍号
+    private String start_time = ""; //申请维修时间
+    private String end_time = ""; //维修完成时间
+    private String repair_state = ""; //未维修
+    private String repair_reverse = ""; //学生评价
+    private String repair_person = ""; //维修人员
     private String device = "";
-    private String fix_state = "";
-    private int fix_cost = 0;
-    private String return_fix = "";
-    private String return_time = "未填写";
-    private String warranty = ""; //选择是否在保修期内
+
+    private String[] stateItem = {"未维修", "已完成"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,33 +79,62 @@ public class RecordDetailActivity extends BaseActivity {
         initView();
     }
 
+    @BindView(R.id.iv_delete)
+    ImageView ivDelete;
+    @BindView(R.id.iv_edit)
+    ImageView ivEdit;
+    @OnClick(R.id.iv_delete)
+    void delete(){
+        deleteRecord();
+    }
+    @OnClick(R.id.iv_edit)
+    void edit(){
+        setViewTouchable();
+    }
+
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.bt_submit)
     Button btSubmit;
 
     @BindView(R.id.tv_time) //时间（选择）
-            TextView timeView;
-    @BindView(R.id.tv_site_name) //网点名称（单选）
-            TextView siteNameView;
+    TextView timeView;
+    @BindView(R.id.tv_repair_time)
+    TextView repairTimeView;
     @BindView(R.id.tv_repair_pro) //维修项目（多选）
-            TextView repairProView;
-    @BindView(R.id.tv_center_name) //联社名称（单选）
-            TextView centerNameView;
-    @BindView(R.id.et_fix_state) //维修详情（填写）
-            TextView fixStateView;
-    @BindView(R.id.et_site_person) //网点人员（填写）
-            EditText sitePersonView;
+    TextView repairProView;
+    @BindView(R.id.tv_center_name) //公寓名称（单选）
+    TextView centerNameView;
+    @BindView(R.id.tv_state)
+    TextView stateView;
+
+    @BindView(R.id.et_fix_state) //维修详情（学生填写）
+    EditText fixStateView;
+    @BindView(R.id.et_site_name) //寝室号
+    EditText siteNameView;
+    @BindView(R.id.et_site_person) //申请人（填写）
+    EditText sitePersonView;
+    @BindView(R.id.et_repair_person)
+    EditText repairPersonView;
+    @BindView(R.id.et_person_phone)
+    EditText personPhoneView;
+    @BindView(R.id.et_repair_state)
+    EditText repairStateView;
+    @BindView(R.id.cv_repair_man)
+    CardView repairCard;
+
 
     //需要选择的一些选项
-    @BindView(R.id.ll_time) //维修时间
+    @BindView(R.id.ll_time) //开始时间
             LinearLayout llTime;
-    @BindView(R.id.rl_center_name) //联社中心
+    @BindView(R.id.rl_center_name) //公寓
             RelativeLayout rlCenterName;
-    @BindView(R.id.rl_site_name) //网点中心
-            RelativeLayout rlSiteName;
     @BindView(R.id.rl_repair_pro) // 维修项目
             RelativeLayout rlRepairPro;
+    @BindView(R.id.rl_state) //维修状态
+            RelativeLayout rlState;
+    @BindView(R.id.rl_repair_time) //维修时间
+            RelativeLayout rlRepairTime;
 
     @OnClick(R.id.ll_time)
     void showTimeDialog() {
@@ -113,7 +144,20 @@ public class RecordDetailActivity extends BaseActivity {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 calendar.set(year, month, dayOfMonth);
                 timeView.setText(TimeUtil.getShowTime(calendar));
-                time = TimeUtil.getUploadTime(calendar); //时间
+                start_time = TimeUtil.getUploadTime(calendar); //时间
+            }
+        });
+    }
+
+    @OnClick(R.id.rl_repair_time)
+    void repairTime() {
+        DialogUtil.showDateDialog(this, calendar, new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                calendar.set(year, month, dayOfMonth);
+                repairTimeView.setText(TimeUtil.getShowTime(calendar));
+                end_time = TimeUtil.getUploadTime(calendar); //时间
             }
         });
     }
@@ -123,7 +167,7 @@ public class RecordDetailActivity extends BaseActivity {
         if (centerItem == null) {
             getCenterList();
         } else {
-            DialogUtil.showSingleChooseDialog(this, "选择联社", centerItem,
+            DialogUtil.showSingleChooseDialog(this, "选择公寓", centerItem,
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -134,136 +178,128 @@ public class RecordDetailActivity extends BaseActivity {
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            center_name = centerItem[which];
+                            dormitory_name = centerItem[which];
                             centerNameView.setText(centerItem[which]);
-                            getSiteList(center_name);
                         }
                     }
             );
         }
     }
 
-    @OnClick(R.id.rl_site_name)
-    void chooseSiteName() {
-        if (siteItem == null) {
-            ToastUtil.showToastShort(RecordDetailActivity.this, "请先选择联社");
-        } else {
-            DialogUtil.showSingleChooseDialog(this, "选择网点", siteItem,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    },
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            site_name = siteItem[which];
-                            siteNameView.setText(siteItem[which]);
-                        }
+    @OnClick(R.id.rl_cur_state)
+    void chooseCurState() {
+        DialogUtil.showSingleChooseDialog(this, "选择维修状态", stateItem,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                     }
-            );
-        }
+                },
+                new DialogInterface.OnClickListener() {
 
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        stateView.setText(stateItem[which]);
+                        repair_state = stateItem[which];
+                    }
+                }
+
+        );
     }
+
+//    private String[] deviceItem;//设备列表
+//    private boolean[] deviceItemIsChecked;//设备是否被选中
+//    private String[] deviceNum;
+//    final List<String> chooseDeviceResult = new ArrayList<>();
+
 
     @OnClick(R.id.rl_repair_pro)
     void chooseRepairPro() {
         // 维修项目——多选
-        if (projectItem == null) {
-            getProject();
+        if (deviceItem == null) {
+            getDeviceList();
         } else {
-            DialogUtil.showMultiChooseDialog(this, "选择维修项目", projectItem, projectItemIsChecked,
+            DialogUtil.showMultiChooseDialog(this, "选择维修项目", deviceItem, deviceItemIsChecked,
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            repair_pro = StringFormatUtil.ListToString(chooseProjectResult);
-                            repairProView.setText(repair_pro.equals("") ? "请选择维修项目" : repair_pro);
+                            device = StringFormatUtil.ListToString(chooseDeviceResult);
+                            repairProView.setText(device.equals("") ? "请选择维修项目" : device);
                             dialog.dismiss();
                         }
                     }, new DialogInterface.OnMultiChoiceClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                            projectItemIsChecked[which] = isChecked;
+                            deviceItemIsChecked[which] = isChecked;
                             if (isChecked) {
-                                chooseProjectResult.add(projectItem[which]);
+                                chooseDeviceResult.add(deviceItem[which]);
                             } else {
-                                chooseProjectResult.remove(projectItem[which]);
+                                chooseDeviceResult.remove(deviceItem[which]);
                             }
                         }
                     });
         }
     }
 
-    //选择个数
-    private void inputDeviceNum(final int position) {
-        View view = View.inflate(RecordDetailActivity.this, R.layout.layout_dialog_edit, null);
-        final EditText editText = view.findViewById(R.id.et_add);
-        DialogUtil.showEditTextDialog(this, "请填写数量", view, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                deviceNum[position] = editText.getText().toString();
-                if (deviceNum[position].equals("")) {
-                    ToastUtil.showToastShort(RecordDetailActivity.this, "请正确填写");
-                    deviceItemIsChecked[position] = false;
-                } else {
-                    deviceItemIsChecked[position] = true;
-                    chooseDeviceResult.add(deviceItem[position] + deviceNum[position]);
-                    dialog.dismiss();
-                }
-            }
-        }, null);
-    }
-
     // 上传
     @OnClick(R.id.bt_submit)
     void submit() {
-        if (isTextNull()) {
-            //TODO 上传操作
-            JSONObject jsonObject = new JSONObject();
-            String url = URLConstant.REPAIR_ADD_RECORD;
-            try {
-                if (!_id.equals("")) {
-                    jsonObject.put("_id", _id);
-                    url = URLConstant.REPAIR_CHANGE_RECORD;
-                }
-                jsonObject.put("time", time);
-                jsonObject.put("site_name", site_name);
-                jsonObject.put("repair_pro", repair_pro);
-                jsonObject.put("repair_person", repair_person);
-                jsonObject.put("site_person", site_person);
-                jsonObject.put("center_name", center_name);
-                jsonObject.put("device", device);
-                jsonObject.put("fix_state", fix_state);
-                jsonObject.put("return_fix", return_fix);
-                jsonObject.put("fix_cost", fix_cost);
-                jsonObject.put("return_time", return_time);
-                jsonObject.put("warranty", warranty);
-            } catch (JSONException e) {
-                e.printStackTrace();
+        if(keyMode.equals(StringConstant.KEY_ADD_MODE)){
+            if(isTextNullStu()){
+                uploadRecord();
             }
-            RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString());
-            ApiBuilder builder = new ApiBuilder()
-                    .Url(url)
-                    .Body(requestBody);
-            Log.i("上传测试", jsonObject.toString());
-            ApiClient.getInstance().doPost(builder, new CallBack<GetResultBean>() {
-                @Override
-                public void onResponse(GetResultBean data) {
-                    if (data.getCode() == URLConstant.SUCCUSS_CODE) {
-                        openActivity(SuccessActivity.class);
-                    } else {
-                        ToastUtil.showToastShort(RecordDetailActivity.this, "请重试");
-                    }
-                }
+        }else{
+            if(!UserInfoUtil.isStudent(this) && isTextNullRepair()){
+                uploadRecord();
+            }
+        }
+    }
 
-                @Override
-                public void onFail(String msg) {
+    void uploadRecord(){
+        //TODO 上传操作
+        JSONObject jsonObject = new JSONObject();
+        String url = URLConstant.REPAIR_ADD_RECORD;
+        try {
+            if (!_id.equals("")) {
+                jsonObject.put("_id", _id);
+                url = URLConstant.REPAIR_CHANGE_RECORD;
+            }
+            jsonObject.put("start_time", start_time);
+            jsonObject.put("person_phone", person_phone);
+            jsonObject.put("site_person", site_person);
+            jsonObject.put("fix_stae", fix_state);
+            jsonObject.put("dormitory_name", dormitory_name);
+            jsonObject.put("site_name", site_name);
+            jsonObject.put("end_time", end_time);
+            jsonObject.put("repair_state", repair_state);
+            jsonObject.put("repair_person", repair_person);
+            jsonObject.put("repair_reverse", repair_reverse);
+            jsonObject.put("device", device);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString());
+        ApiBuilder builder = new ApiBuilder()
+                .Url(url)
+                .Body(requestBody);
+        Log.i("上传测试", jsonObject.toString());
+        ApiClient.getInstance().doPost(builder, new CallBack<GetResultBean>() {
+            @Override
+            public void onResponse(GetResultBean data) {
+                if (data.getCode() == URLConstant.SUCCUSS_CODE) {
+                    openActivity(SuccessActivity.class);
+                } else {
                     ToastUtil.showToastShort(RecordDetailActivity.this, "请重试");
                 }
-            }, GetResultBean.class);
-            finish();
-        }
+            }
+
+            @Override
+            public void onFail(String msg) {
+                ToastUtil.showToastShort(RecordDetailActivity.this, "请重试");
+            }
+        }, GetResultBean.class);
+        finish();
     }
 
     @OnClick(R.id.rl_back)
@@ -271,29 +307,30 @@ public class RecordDetailActivity extends BaseActivity {
         onBackPressed();
     }
 
+    String keyMode;
     @Override
     public void initView() {
         //更新时间
         addRecordView();
-//        String keyMode = getIntent().getStringExtra(StringConstant.KEY_MODE);
-//        switch (keyMode) {
-//            case StringConstant.KEY_ADD_MODE:
-//                tvTitle.setText("添加记录");
-//                ivDelete.setVisibility(View.GONE);
-//                ivEdit.setVisibility(View.GONE);
-//                btSubmit.setVisibility(View.VISIBLE);
-//                addRecordView();
-//                break;
-//            case StringConstant.KEY_FIX_MODE:
-//                tvTitle.setText("修改记录");
-//                btSubmit.setVisibility(View.VISIBLE);
-//                break;
-//            case StringConstant.KEY_LOOK_MODE:
-//                tvTitle.setText("记录详情");
-//                btSubmit.setVisibility(View.GONE);
-//                putDataToView();
-//                break;
-//        }
+        keyMode = getIntent().getStringExtra(StringConstant.KEY_MODE);
+        switch (keyMode) {
+            case StringConstant.KEY_ADD_MODE:
+                tvTitle.setText("申请维修");
+                ivDelete.setVisibility(View.GONE);
+                ivEdit.setVisibility(View.GONE);
+                btSubmit.setVisibility(View.VISIBLE);
+                addRecordView();
+                break;
+            case StringConstant.KEY_FIX_MODE:
+                tvTitle.setText("修改记录");
+                btSubmit.setVisibility(View.VISIBLE);
+                break;
+            case StringConstant.KEY_LOOK_MODE:
+                tvTitle.setText("记录详情");
+                btSubmit.setVisibility(View.GONE);
+                putDataToView();
+                break;
+        }
 
     }
 
@@ -301,52 +338,64 @@ public class RecordDetailActivity extends BaseActivity {
     public void initDate() {
         getCenterList();
         getDeviceList();
-        getProject();
-        getRepairMan();
     }
 
-    private boolean isTextNull() {
-        if (time.equals("")) {
+    private boolean isTextNullStu() {
+        if (start_time.equals("")) {
             ToastUtil.showToastShort(this, "请选择时间");
             return false;
         }
-        if (center_name.equals("")) {
-            ToastUtil.showToastShort(this, "请选择联社名称");
+        if (dormitory_name.equals("")) {
+            ToastUtil.showToastShort(this, "请选择公寓");
         }
+        site_name = siteNameView.getText().toString();
         if (site_name.equals("")) {
-            ToastUtil.showToastShort(this, "请选择网点名称");
+            ToastUtil.showToastShort(this, "请填写寝室号");
             return false;
         }
         site_person = sitePersonView.getText().toString();
         if (site_person.equals("")) {
-            ToastUtil.showToastShort(this, "请填写网点人员");
+            ToastUtil.showToastShort(this, "请填写申请人");
             return false;
         }
-        if (repair_person.equals("")) {
-            ToastUtil.showToastShort(this, "请选择维修人员");
-            return false;
-        }
-        if (repair_pro.equals("")) {
-            ToastUtil.showToastShort(this, "请选择维修项目");
-            return false;
-        }
-        if (warranty.equals("")) {
-            ToastUtil.showToastShort(this, "请选择是否在保修期内");
+        person_phone = personPhoneView.getText().toString();
+        if(person_phone.equals("")){
+            ToastUtil.showToastShort(this, "请填写申请人电话");
             return false;
         }
         if (device.equals("")) {
-            ToastUtil.showToastShort(this, "请选择设备明细");
+            ToastUtil.showToastShort(this, "请选择维修项目");
             return false;
         }
-        fix_state = fixStateView.getText().toString();
-        if (fix_state.equals("")) {
-            ToastUtil.showToastShort(this, "请填写维修详情");
+        repair_reverse = fixStateView.getText().toString();
+        if(repair_reverse.equals("")){
+            ToastUtil.showToastShort(this, "请填写报修详情");
             return false;
         }
-        if (return_fix.equals("")) {
-            ToastUtil.showToastShort(this, "请选择是否返厂维修");
+
+        return true;
+    }
+
+    private boolean isTextNullRepair() {
+        if (repair_state.equals("")) {
+            ToastUtil.showToastShort(this, "请选择维修状态");
             return false;
         }
+        if (end_time.equals("")) {
+            ToastUtil.showToastShort(this, "请选择维修项目");
+            return false;
+        }
+        repair_person = repairPersonView.getText().toString();
+        if(repair_person.equals("")){
+            ToastUtil.showToastShort(this, "请填写维修人");
+            return false;
+        }
+        fix_state = repairStateView.getText().toString();
+        if(repair_person.equals("")){
+            ToastUtil.showToastShort(this, "请填写维修人");
+            return false;
+        }
+
         return true;
     }
 
@@ -354,7 +403,7 @@ public class RecordDetailActivity extends BaseActivity {
      * 添加记录，把当前时间更新到对应时间
      */
     public void addRecordView() {
-        time = TimeUtil.getUploadTime(calendar);
+        start_time = TimeUtil.getUploadTime(calendar);
         timeView.setText(TimeUtil.getShowTime(calendar));
     }
 
@@ -366,23 +415,48 @@ public class RecordDetailActivity extends BaseActivity {
 
         _id = bean.get_id();
 
-        time = bean.getTime();
-        timeView.setText(TimeUtil.transferTimeToShow(time));
+        start_time = bean.getStart_time();
+        timeView.setText(TimeUtil.transferTimeToShow(start_time));
 
         site_name = bean.getSite_name();
         siteNameView.setText(site_name);
 
-        center_name = bean.getCenter_name();
-        centerNameView.setText(center_name);
+        dormitory_name = bean.getDormitory_name();
+        centerNameView.setText(dormitory_name);
 
-        repair_pro = bean.getRepair_pro();
-        repairProView.setText(repair_pro);
+        site_person = bean.getSite_person();
+        sitePersonView.setText(site_person);
+
+        person_phone = bean.getPreson_phone();
+        personPhoneView.setText(person_phone);
+
+        device = bean.getDevice();
+        repairProView.setText(device);
+
+        repair_reverse = bean.getRepair_reverse();
+        fixStateView.setText(repair_reverse);
 
         site_person = bean.getSite_person();
         sitePersonView.setText(site_person);
 
         fix_state = bean.getFix_state();
         fixStateView.setText(fix_state);
+
+        repair_state = bean.getRepair_state();
+        stateView.setText(repair_state);
+
+        end_time = bean.getEnd_time();
+        if(!end_time.equals("")){
+            repairTimeView.setText(TimeUtil.transferTimeToShow(start_time));
+        }
+        repair_person = bean.getRepair_person();
+        if(!repair_person.equals("")){
+            repairPersonView.setText(repair_person);
+        }
+        fix_state = bean.getRepair_state();
+        if(!fix_state.equals("")){
+            repairStateView.setText(fix_state);
+        }
 
         setViewUntouchable();
     }
@@ -393,11 +467,16 @@ public class RecordDetailActivity extends BaseActivity {
     public void setViewUntouchable() {
         llTime.setEnabled(false);
         rlCenterName.setEnabled(false);
-        rlSiteName.setEnabled(false);
         rlRepairPro.setEnabled(false);
+        rlState.setEnabled(false);
+        rlRepairTime.setEnabled(false);
 
-        sitePersonView.setFocusable(false);
         fixStateView.setFocusable(false);
+        siteNameView.setFocusable(false);
+        sitePersonView.setFocusable(false);
+        repairPersonView.setFocusable(false);
+        personPhoneView.setFocusable(false);
+        repairStateView.setFocusable(false);
     }
 
     /**
@@ -407,13 +486,26 @@ public class RecordDetailActivity extends BaseActivity {
 
         llTime.setEnabled(true);
         rlCenterName.setEnabled(true);
-        rlSiteName.setEnabled(true);
+        rlState.setEnabled(true);
         rlRepairPro.setEnabled(true);
+        rlRepairTime.setEnabled(true);
 
         sitePersonView.setFocusable(true);
         sitePersonView.setFocusableInTouchMode(true);
         fixStateView.setFocusable(true);
         fixStateView.setFocusableInTouchMode(true);
+
+        siteNameView.setFocusable(true);
+        siteNameView.setFocusableInTouchMode(true);
+
+        repairPersonView.setFocusable(true);
+        repairPersonView.setFocusableInTouchMode(true);
+
+        personPhoneView.setFocusable(true);
+        personPhoneView.setFocusableInTouchMode(true);
+
+        repairStateView.setFocusable(true);
+        repairStateView.setFocusableInTouchMode(true);
 
         btSubmit.setVisibility(View.VISIBLE);
     }
@@ -452,51 +544,19 @@ public class RecordDetailActivity extends BaseActivity {
                     if (data.getData() != null) {
                         centerItem = new String[data.getData().size()];
                         for (int i = 0; i < data.getData().size(); i++) {
-                            centerItem[i] = data.getData().get(i).getCenter_name();
+                            centerItem[i] = data.getData().get(i).getDormitory_name();
                         }
                     }
                 } else {
-                    ToastUtil.showToastShort(RecordDetailActivity.this, "获取联社列表失败");
+                    ToastUtil.showToastShort(RecordDetailActivity.this, "获取公寓列表失败");
                 }
             }
 
             @Override
             public void onFail(String msg) {
-                ToastUtil.showToastShort(RecordDetailActivity.this, "获取联社列表失败");
+                ToastUtil.showToastShort(RecordDetailActivity.this, "获取公寓列表失败");
             }
         }, CenterBean.class);
-    }
-
-    /**
-     * 获取网点列表
-     *
-     * @param siteProperty
-     */
-    private String[] siteItem;
-
-    private void getSiteList(String siteProperty) {
-        ApiBuilder builder = new ApiBuilder().Url(URLConstant.SITE_GET_LIST)
-                .Params("site_property", siteProperty);
-        ApiClient.getInstance().doGet(builder, new CallBack<SiteBean>() {
-            @Override
-            public void onResponse(SiteBean data) {
-                if (data.getCode() == URLConstant.SUCCUSS_CODE) {
-                    if (data.getData() != null) {
-                        siteItem = new String[data.getData().size()];
-                        for (int i = 0; i < data.getData().size(); i++) {
-                            siteItem[i] = data.getData().get(i).getSite_name();
-                        }
-                    }
-                } else {
-                    ToastUtil.showToastShort(RecordDetailActivity.this, "查询失败请重试");
-                }
-            }
-
-            @Override
-            public void onFail(String msg) {
-                ToastUtil.showToastShort(RecordDetailActivity.this, "查询失败请重试");
-            }
-        }, SiteBean.class);
     }
 
     /**
@@ -524,82 +584,15 @@ public class RecordDetailActivity extends BaseActivity {
                         }
                     }
                 } else {
-                    ToastUtil.showToastShort(RecordDetailActivity.this, "获取设备列表失败");
+                    ToastUtil.showToastShort(RecordDetailActivity.this, "获取维修项目列表失败");
                 }
             }
 
             @Override
             public void onFail(String msg) {
-                ToastUtil.showToastShort(RecordDetailActivity.this, "获取设备列表失败");
+                ToastUtil.showToastShort(RecordDetailActivity.this, "获取维修项目列表失败");
             }
         }, DeviceBean.class);
-    }
-
-    /**
-     * 获取维修人员列表
-     */
-    private String[] repairManItem;
-    private boolean[] repairManItemIsChecked;
-    final List<String> chooseRepairManResult = new ArrayList<>();
-
-    private void getRepairMan() {
-        ApiBuilder builder = new ApiBuilder().Url(URLConstant.PERSON_GET_LIST)
-                .Params("limit", UserInfoUtil.LIMIT_REPAIR_MAN);
-        ApiClient.getInstance().doGet(builder, new CallBack<PeopleBean>() {
-            @Override
-            public void onResponse(PeopleBean data) {
-                if (data.getCode() == URLConstant.SUCCUSS_CODE) {
-                    if (data.getData() != null) {
-                        repairManItem = new String[data.getData().size()];
-                        repairManItemIsChecked = new boolean[data.getData().size()];
-                        for (int i = 0; i < data.getData().size(); i++) {
-                            repairManItem[i] = data.getData().get(i).getNick_name();
-                            repairManItemIsChecked[i] = false;
-                        }
-                    }
-                } else {
-                    ToastUtil.showToastShort(RecordDetailActivity.this, "获取维修人员失败");
-                }
-            }
-
-            @Override
-            public void onFail(String msg) {
-                ToastUtil.showToastShort(RecordDetailActivity.this, "获取维修人员失败");
-            }
-        }, PeopleBean.class);
-    }
-
-    /**
-     * 获取维修项目列表
-     */
-    private String[] projectItem;
-    private boolean[] projectItemIsChecked;
-    final List<String> chooseProjectResult = new ArrayList<>();
-
-    private void getProject() {
-        ApiBuilder builder = new ApiBuilder().Url(URLConstant.PROJECT_GET_LIST);
-        ApiClient.getInstance().doGet(builder, new CallBack<ProjectBean>() {
-            @Override
-            public void onResponse(ProjectBean data) {
-                if (data.getCode() == URLConstant.SUCCUSS_CODE) {
-                    if (data.getData() != null) {
-                        projectItem = new String[data.getData().size()];
-                        projectItemIsChecked = new boolean[data.getData().size()];
-                        for (int i = 0; i < data.getData().size(); i++) {
-                            projectItem[i] = data.getData().get(i).getProject_name();
-                            projectItemIsChecked[i] = false;
-                        }
-                    }
-                } else {
-                    ToastUtil.showToastShort(RecordDetailActivity.this, "获取维修项目失败");
-                }
-            }
-
-            @Override
-            public void onFail(String msg) {
-                ToastUtil.showToastShort(RecordDetailActivity.this, "获取维修项目失败");
-            }
-        }, ProjectBean.class);
     }
 
 }

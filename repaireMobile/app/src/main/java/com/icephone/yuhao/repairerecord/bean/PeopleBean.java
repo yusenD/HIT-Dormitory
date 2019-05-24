@@ -1,5 +1,6 @@
 package com.icephone.yuhao.repairerecord.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class PeopleBean {
@@ -38,7 +39,7 @@ public class PeopleBean {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable {
         /**
          * _id : 5ce11afdd7ad22118c3e204f
          * account : 6_666

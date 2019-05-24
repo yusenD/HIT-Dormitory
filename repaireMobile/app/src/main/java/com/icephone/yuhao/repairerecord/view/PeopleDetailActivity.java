@@ -52,36 +52,6 @@ public class PeopleDetailActivity extends BaseActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         personLimitView.setText(item[which]);
                         limit = item[which];
-                        if(limit.equals(UserInfoUtil.LIMIT_SUPER_MANAGER)){
-                            centerNameView.setText("全部");
-                            manage_center = "全部";
-                        }
-                        if(limit.equals(UserInfoUtil.LIMIT_REPAIR_MAN)) {
-                            centerNameView.setText("无");
-                            manage_center = "无";
-                        }
-                    }
-                }
-
-        );
-    }
-
-    //选择联社名称
-    @OnClick(R.id.rl_center_name)
-    void chooseCenterName() {
-        DialogUtil.showSingleChooseDialog(this, "选择联社", centerItem,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                },
-                new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        centerNameView.setText(centerItem[which]);
-                        manage_center = centerItem[which];
                     }
                 }
 
@@ -102,8 +72,8 @@ public class PeopleDetailActivity extends BaseActivity {
                 jsonObject.put("nick_name", nick_name);
                 jsonObject.put("account", account);
                 jsonObject.put("password", password);
-                jsonObject.put("limit", limit);
-                jsonObject.put("manage_center", manage_center);
+                jsonObject.put("permission", limit);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -150,18 +120,14 @@ public class PeopleDetailActivity extends BaseActivity {
     //用户密码
     @BindView(R.id.et_person_password)
     EditText passowordView;
-    //联社名称
-    @BindView(R.id.tv_center_name)
-    TextView centerNameView;
+
     //用户权限
     @BindView(R.id.tv_person_limit)
     TextView personLimitView;
     //权限框
     @BindView(R.id.rl_person_limit)
     RelativeLayout rlPersonLimit;
-    //联社名称框
-    @BindView(R.id.rl_center_name)
-    RelativeLayout rlCenterName;
+
 
 
     @OnClick(R.id.rl_back)
@@ -170,7 +136,6 @@ public class PeopleDetailActivity extends BaseActivity {
     }
 
     private String _id = "";
-    private String manage_center = "无";
     private String nick_name = "";
     private String account = "";
     private String limit = "";
@@ -199,10 +164,8 @@ public class PeopleDetailActivity extends BaseActivity {
             passowordView.setText(password);
             nick_name = bean.getNick_name();
             nickNameView.setText(nick_name);
-            limit = bean.getLimit();
+            limit = bean.getPermission();
             personLimitView.setText(limit);
-            manage_center = bean.getManage_center();
-            centerNameView.setText(manage_center);
             btSubmit.setVisibility(View.INVISIBLE);
             setViewUntouchable();
 
@@ -214,7 +177,7 @@ public class PeopleDetailActivity extends BaseActivity {
 
     @Override
     public void initDate() {
-        getCenterList();
+
     }
 
     //检查数据是否符合
@@ -234,17 +197,11 @@ public class PeopleDetailActivity extends BaseActivity {
             ToastUtil.showToastShort(this, "请填写网点人员");
             return false;
         }
+
         if (limit.equals("")) {
             ToastUtil.showToastShort(this, "请选择用户权限");
             return false;
-        } else {
-            if (limit.equals(UserInfoUtil.LIMIT_MANAGER) && manage_center.equals("")) {
-                ToastUtil.showToastShort(this, "请选择管理联社");
-                return false;
-            }
-            if(limit.equals(UserInfoUtil.LIMIT_SUPER_MANAGER)) manage_center = "全部";
-            if(limit.equals(UserInfoUtil.LIMIT_REPAIR_MAN)) manage_center = "无";
-         }
+        }
 
         return true;
     }
@@ -254,7 +211,7 @@ public class PeopleDetailActivity extends BaseActivity {
      */
     public void setViewUntouchable() {
         rlPersonLimit.setEnabled(false);
-        rlCenterName.setEnabled(false);
+//        rlCenterName.setEnabled(false);
 //        rlSiteName.setFocusable(false);
 //        rlRepairPro.setFocusable(false);
 //        rlRepairPerson.setFocusable(false);
@@ -269,7 +226,7 @@ public class PeopleDetailActivity extends BaseActivity {
      */
     public void setViewTouchable() {
 
-        rlCenterName.setEnabled(true);
+//        rlCenterName.setEnabled(true);
         rlPersonLimit.setEnabled(true);
 //        rlRepairPro.setFocusable(true);
 //        rlRepairPerson.setFocusable(true);
@@ -284,30 +241,30 @@ public class PeopleDetailActivity extends BaseActivity {
         btSubmit.setVisibility(View.VISIBLE);
     }
 
-    private String[] centerItem;
+//    private String[] centerItem;
 
-    private void getCenterList() {
-
-        ApiBuilder builder = new ApiBuilder().Url(URLConstant.CENTER_GET_LIST);
-        ApiClient.getInstance().doGet(builder, new CallBack<CenterBean>() {
-            @Override
-            public void onResponse(CenterBean data) {
-                if (data.getCode() == URLConstant.SUCCUSS_CODE) {
-                    if (data.getData() != null) {
-                        centerItem = new String[data.getData().size()];
-                        for (int i = 0; i < data.getData().size(); i++) {
-                            centerItem[i] = data.getData().get(i).getCenter_name();
-                        }
-                    }
-                } else {
-                    ToastUtil.showToastShort(PeopleDetailActivity.this, "获取联社列表失败");
-                }
-            }
-
-            @Override
-            public void onFail(String msg) {
-                ToastUtil.showToastShort(PeopleDetailActivity.this, "获取联社列表失败");
-            }
-        }, CenterBean.class);
-    }
+//    private void getCenterList() {
+//
+//        ApiBuilder builder = new ApiBuilder().Url(URLConstant.CENTER_GET_LIST);
+//        ApiClient.getInstance().doGet(builder, new CallBack<CenterBean>() {
+//            @Override
+//            public void onResponse(CenterBean data) {
+//                if (data.getCode() == URLConstant.SUCCUSS_CODE) {
+//                    if (data.getData() != null) {
+//                        centerItem = new String[data.getData().size()];
+//                        for (int i = 0; i < data.getData().size(); i++) {
+//                            centerItem[i] = data.getData().get(i).getCenter_name();
+//                        }
+//                    }
+//                } else {
+//                    ToastUtil.showToastShort(PeopleDetailActivity.this, "获取联社列表失败");
+//                }
+//            }
+//
+//            @Override
+//            public void onFail(String msg) {
+//                ToastUtil.showToastShort(PeopleDetailActivity.this, "获取联社列表失败");
+//            }
+//        }, CenterBean.class);
+//    }
 }

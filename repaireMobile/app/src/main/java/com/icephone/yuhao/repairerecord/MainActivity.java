@@ -43,6 +43,7 @@ public class MainActivity extends BaseActivity {
 
         Bundle bundle = new Bundle();
 
+        bundle.putString(StringConstant.KEY_MODE,StringConstant.KEY_LOOK_MODE);
         bundle.putString(StringConstant.KEY_SEARCH_DORMITORY_NAME,centerNameSearch);
         bundle.putString(StringConstant.KEY_SEARCH_SITE_NAME,siteNameSearch);
         bundle.putString(StringConstant.KEY_SEARCH_CUR_STATE,curStateSearch);

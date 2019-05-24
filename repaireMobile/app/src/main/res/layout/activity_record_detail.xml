@@ -21,7 +21,7 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
                 android:src="@drawable/ic_return" />
 
         </RelativeLayout>
@@ -35,6 +35,26 @@
             android:text="@string/addRecord"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/iv_edit"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x60"
+            android:src="@drawable/ic_edit" />
+
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="@dimen/x20"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_delete" />
+
+
 
     </RelativeLayout>
 
@@ -136,35 +156,16 @@
                         android:text="寝室号："
                         android:textSize="@dimen/y26" />
 
-                    <RelativeLayout
-                        android:id="@+id/rl_site_name"
+                    <EditText
+                        android:id="@+id/et_site_name"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/y90"
                         android:layout_marginTop="@dimen/y20"
                         android:background="@drawable/bg_gray_line"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/tv_site_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="@dimen/x20"
-                            android:layout_marginLeft="@dimen/x20"
-                            android:text="请选择寝室号"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/y28" />
-
-                        <ImageView
-                            android:layout_width="@dimen/x30"
-                            android:layout_height="@dimen/y30"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="@dimen/x30"
-                            android:src="@drawable/ic_forward" />
-
-                    </RelativeLayout>
+                        android:hint="请输入寝室号"
+                        android:paddingStart="@dimen/x20"
+                        android:paddingLeft="@dimen/x20"
+                        android:textSize="@dimen/y28" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -180,6 +181,24 @@
                         android:layout_marginTop="@dimen/y20"
                         android:background="@drawable/bg_gray_line"
                         android:hint="请输入申请人姓名"
+                        android:paddingStart="@dimen/x20"
+                        android:paddingLeft="@dimen/x20"
+                        android:textSize="@dimen/y28" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/y20"
+                        android:text="申请人电话："
+                        android:textSize="@dimen/y26" />
+
+                    <EditText
+                        android:id="@+id/et_person_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y90"
+                        android:layout_marginTop="@dimen/y20"
+                        android:background="@drawable/bg_gray_line"
+                        android:hint="请输入申请人电话"
                         android:paddingStart="@dimen/x20"
                         android:paddingLeft="@dimen/x20"
                         android:textSize="@dimen/y28" />
@@ -248,7 +267,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/y20"
-                        android:text="维修详情："
+                        android:text="报修详情："
                         android:textSize="@dimen/y26" />
 
                     <EditText
@@ -257,12 +276,142 @@
                         android:layout_height="@dimen/y200"
                         android:layout_marginTop="@dimen/y20"
                         android:background="@drawable/bg_gray_line"
-                        android:hint="请输入维修详情"
+                        android:hint="请输入报修详情"
                         android:paddingStart="@dimen/x20"
                         android:paddingLeft="@dimen/x20"
                         android:textSize="@dimen/y28" />
 
 
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cv_repair_man"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x30"
+                android:layout_marginTop="@dimen/y20"
+                android:layout_marginRight="@dimen/x30"
+                android:layout_marginBottom="@dimen/y10"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/x30"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="维修状态："
+                        android:textSize="@dimen/y26" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_state"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y90"
+                        android:layout_marginTop="@dimen/y20"
+                        android:background="@drawable/bg_gray_line"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_state"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/x20"
+                            android:layout_marginLeft="@dimen/x20"
+                            android:text="请选择维修状态"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/y28" />
+
+                        <ImageView
+                            android:layout_width="@dimen/x30"
+                            android:layout_height="@dimen/y30"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/x30"
+                            android:src="@drawable/ic_forward" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/y20"
+                        android:text="维修时间："
+                        android:textSize="@dimen/y26" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_repair_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y90"
+                        android:layout_marginTop="@dimen/y20"
+                        android:background="@drawable/bg_gray_line"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_repair_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/x20"
+                            android:layout_marginLeft="@dimen/x20"
+                            android:text="请选择维修时间"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/y28" />
+
+                        <ImageView
+                            android:layout_width="@dimen/x30"
+                            android:layout_height="@dimen/y30"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/x30"
+                            android:src="@drawable/ic_forward" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/y20"
+                        android:text="维修人："
+                        android:textSize="@dimen/y26" />
+
+                    <EditText
+                        android:id="@+id/et_repair_person"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y90"
+                        android:layout_marginTop="@dimen/y20"
+                        android:background="@drawable/bg_gray_line"
+                        android:hint="请输入维修人姓名"
+                        android:paddingStart="@dimen/x20"
+                        android:paddingLeft="@dimen/x20"
+                        android:textSize="@dimen/y28" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/y20"
+                        android:text="维修详情："
+                        android:textSize="@dimen/y26" />
+
+                    <EditText
+                        android:id="@+id/et_repair_state"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/y200"
+                        android:layout_marginTop="@dimen/y20"
+                        android:background="@drawable/bg_gray_line"
+                        android:hint="请输入维修详情"
+                        android:paddingStart="@dimen/x20"
+                        android:paddingLeft="@dimen/x20"
+                        android:textSize="@dimen/y28" />
 
                 </LinearLayout>
 

@@ -26,12 +26,10 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".view.RecordDetailActivity" />
         <activity android:name=".view.SearchRecordActivity" />
-        <activity android:name=".view.CenterListActivity" />
         <activity android:name=".view.ResultActivity" />
         <activity android:name=".view.SuccessActivity" />
         <activity android:name=".view.ManagePeopleActivity" />
         <activity android:name=".view.ManageRepairProActivity" />
-        <activity android:name=".view.ManageSiteActivity" />
         <activity android:name=".view.ManageFittingActivity" />
         <activity android:name=".view.PeopleDetailActivity" /> <!-- <activity -->
         <!-- android:name=".LoginActivity" -->

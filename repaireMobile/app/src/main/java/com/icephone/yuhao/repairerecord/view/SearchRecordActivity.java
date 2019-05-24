@@ -185,7 +185,7 @@ public class SearchRecordActivity extends BaseActivity {
                     if (data.getData() != null) {
                         centerItem = new String[data.getData().size()];
                         for (int i=0;i< data.getData().size();i++){
-                            centerItem[i] = data.getData().get(i).getCenter_name();
+                            centerItem[i] = data.getData().get(i).getDormitory_name();
                         }
                     }
                 } else {

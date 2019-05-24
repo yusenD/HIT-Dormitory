@@ -102,7 +102,7 @@ public class ResultActivity extends BaseActivity {
         ApiBuilder builder = new ApiBuilder().Url(URLConstant.REPAIR_GET_LIST)
                 .Params("dormitory_name", centerNameSearch)
                 .Params("site_name",siteNameSearch)
-                .Params("fix_state",curStateSearch)
+                .Params("repair_state",curStateSearch)
                 .Params("start_time", startTimeSearch)
                 .Params("end_time", endTimeSearch);
 
