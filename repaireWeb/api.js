@@ -11,58 +11,75 @@ module.exports = function (app) {
   });
 
   // api login
+ 
+
   app.get('/repair/app/login', function (req, res) {
-    // 对发来的登录数据进行验证
-    if (!req.query.account) {
-      res.json({code: 600, msg:'name 不能为空！'})
-      return
-    }
-    if (!req.query.password) {
-      res.json({code: 600, msg:'pwd 不能为空！'})
-      return
-    }
-    db.person.findOne(
-      {account: req.query.account}, 
-      function(err, doc){
-      if (err) {
-        console.log('查询出错：' + err);
-      } else {
-        if (!doc) {
-          res.json({code: 700, msg:'不存在该用户'})
-          return
-        } else {
-          if (req.query.password != doc.password) {
-            res.json({code: 700, msg:'密码不正确'})
-            return
+    
+    let repairBean = [];
+    const param = {};
+	if (req.query.account != undefined) param.account=req.query.account;
+    const getrepairBean = new Promise((resolve, reject) => {
+      db.person.find(
+        param,
+        {__v:0},
+        function (err, doc) {
+          if (err) {
+            console.log('User find error!')
+            reject('reject repairPerson')
           } else {
-            res.json({code: 200, msg:'欢迎使用'})
-            return
+            if (!doc) {
+              repairBean = [];
+            } 
+			else {
+				if (req.query.password != doc[0].password) {
+			
+				res.json({code: 700, msg:'密码不正确'})
+				return
+				} 
+				else {
+				repairBean = doc;
+				}
+				resolve(repairBean)
           }
         }
+    })}
+	)
 
-      }
+    const p_all = Promise.all([getrepairBean])
+
+    p_all.then((suc) => {
+  
+      res.json({ code: 200, msg: '欢迎访问', data: suc[0] })
+	  return
+          
+    
+    }).catch((err) => {
+      console.log('err all:' + err)
+      res.json({ code: 600, msg: '登录失败', data: data })
+      return
     })
-    // 查询数据库验证账号、密码
-    // 返回登录状态
-    // res.send(JSON.stringify({code: 200, data: {account: 'guojc', pass: 111111}}))
   })
+  
+  
+  //维修记录================================================================================
 
-  //维修列表================================================================================
-
-  //获取维修列表————完成
+  //获取指定维修记录
   app.get('/repair/app/getrepairList', function (req, res) {
     
     let repairBean = [];
     const param = {};
     const time = {};
-    if(req.query.center_name!=undefined) param.center_name = req.query.center_name;
+    if (req.query.dormitory_name != undefined) param.dormitory_name = req.query.dormitory_name;
+
+	if (req.query.repair_state != undefined) param.repair_state = req.query.repair_state; 
+	
+	if (req.query.site_name != undefined) param.site_name = req.query.site_name; 
+	
     if(req.query.start_time!=undefined) {
-      time.$gte = req.query.start_time;
-      param.time = time;
+      param.start_time = req.query.start_time;
     }
     if(req.query.end_time!=undefined) {
-      time.$lte = req.query.end_time;
-      param.time = time;
+      param.end_time = req.query.end_time;
     }
     console.log(param)
     // repair
@@ -88,9 +105,8 @@ module.exports = function (app) {
     const p_all = Promise.all([getrepairBean])
 
     p_all.then((suc) => {
-      let data = {
-        "repairBean": suc[0]
-      }
+      let data = suc[0]
+     
       res.json({ code: 200, msg: '查询成功', data: data })
       return
     }).catch((err) => {
@@ -99,6 +115,50 @@ module.exports = function (app) {
       return
     })
   })
+  
+  //获取全部维修记录
+  
+  app.get('/repair/app/getrepairallList', function (req, res) {
+    
+    let repairBean = [];
+    const param = {};
+    const time = {};
+    
+    
+    // repair
+    const getrepairBean = new Promise((resolve, reject) => {
+      db.repair.find(
+        param,
+        {__v:0},
+        function (err, doc) {
+          if (err) {
+            console.log('repairBean find error!')
+            reject('reject repairBean')
+          } else {
+            if (!doc) {
+              repairBean = [];
+            } else {
+              repairBean = [];
+            }
+            resolve(repairBean)
+          }
+        })
+    })
+
+    const p_all = Promise.all([getrepairBean])
+
+    p_all.then((suc) => {
+      
+      res.json({ code: 200, msg: '查询成功', data: suc[0] })
+      return
+    }).catch((err) => {
+      console.log('err all:' + err)
+      res.json({ code: 600, msg: '查询出错', data: err })
+      return
+    })
+  })
+  
+  
 
   //删除维修记录————完成
   app.get('/repair/app/deleterepairRecord', function (req, res) {
@@ -126,7 +186,7 @@ module.exports = function (app) {
       function(err,doc){
         if (err) {
           console.log('修改错误：' + err);
-          res.json({code: 700, msg:'修改失败：'})
+          res.json({code: 700, msg:'修改失败'})
           return
         } else{
           res.json({code: 200, msg:'修改成功'})
@@ -135,7 +195,7 @@ module.exports = function (app) {
     )
   })
 
-  //增加维修记录————完成
+  //增加维修记录————完成      前端添加时需要传入所有参数 无输入的参数设为空
   app.post('/repair/app/addrepairRecord', function (req, res) {
     db.repair.create(
       req.body,
@@ -152,120 +212,96 @@ module.exports = function (app) {
 
   })
 
-  //安装记录=====================================================
-  //获取安装列表————完成
-  app.get('/repair/app/getInstallList', function (req, res) {
+  //申请维修记录=====================================================
+  //获取申请维修列表————完成
+  app.get('/repair/app/getRequireList', function (req, res) {
     
-    let installBean = [];
+    let repairBean = [];
     const param = {};
-    const time = {};
-    if(req.query.center_name!=undefined) param.center_name = req.query.center_name;
-    if(req.query.start_time!=undefined) {
-      time.$gte = req.query.start_time;
-      param.time = time;
-    }
-    if(req.query.end_time!=undefined) {
-      time.$lte = req.query.end_time;
-      param.time = time;
-    }
-    console.log(param)
-    // install
-    const getInstallBean = new Promise((resolve, reject) => {
-      db.install.find(
+ 
+    param.repair_state= '未维修';
+    const getrepairBean = new Promise((resolve, reject) => {
+      db.repair.find(
         param,
         {__v:0},
         function (err, doc) {
           if (err) {
-            console.log('installBean find error!')
-            reject('reject installBean')
+            console.log('repairBean find error!')
+            reject('reject repairBean')
           } else {
             if (!doc) {
-              installBean = [];
+              repairBean = [];
             } else {
-              installBean = doc;
+              repairBean = doc;
             }
-            resolve(installBean)
+            resolve(repairBean)
           }
         })
     })
 
-    const p_all = Promise.all([getInstallBean])
+    const p_all = Promise.all([getrepairBean])
 
     p_all.then((suc) => {
-      let data = {
-        "installBean": suc[0]
-      }
-      res.json({ code: 200, msg: '查询成功', data: data })
+      
+      res.json({ code: 200, msg: '查询成功', data: suc[0] })
       return
     }).catch((err) => {
       console.log('err all:' + err)
-      res.json({ code: 600, msg: '查询出错', data: data })
+      res.json({ code: 600, msg: '查询出错', data: err })
       return
     })
   })
 
-  //删除安装记录————
-  app.get('/repair/app/deleteInstallRecord', function (req, res) {
-      console.log(req.query)
-      db.install.findByIdAndRemove(
-        req.query._id,
-        function(err,doc){
-          if(err){
-            console.log(err)
-            res.json({code:700,msg:'删除失败'})
-          }else{
-            res.json({code:200,msg:'删除成功'})
+  //获取公寓列表
+  app.get('/repair/app/getDormitory', function (req, res) {
+    let DormitoryBean = [];
+
+    const getDormitory = new Promise((resolve, reject) => {
+      db.dormitory.find(
+        {},
+        function (err, doc) {
+          if (err) {
+            console.log('dormitory find error!');
+            reject('reject dormitory')
+          } else {
+            if (!doc) {
+              DormitoryBean = [];
+            } else {
+              DormitoryBean = doc;
+            }
+            resolve(DormitoryBean)
           }
-        }
-      )
-  })
+        })
+    })
 
-  //修改安装记录————
-  app.post('/repair/app/changeInstallRecord', function (req, res) {
-    console.log(req.body)
-    db.install.findByIdAndUpdate(
-      req.body._id,
-      req.body,
-      {upsert:true},
-      function(err,doc){
-        if (err) {
-          console.log('修改错误：' + err);
-          res.json({code: 700, msg:'修改失败：'})
-          return
-        } else{
-          res.json({code: 200, msg:'修改成功'})
-        }
-      }
-    )
-  })
+    const p_all = Promise.all([getDormitory])
 
-  //增加安装记录————
-  app.post('/repair/app/addInstallRecord', function (req, res) {
-    db.install.create(
-      req.body,
-      function(err,doc){
-        if(err){
-          console.log('添加失败' + err);
-          res.json({code: 700, msg:'添加失败'})
-        } else{
-          console.log(doc);
-          res.json({code: 200, msg:'添加成功'})
-        }
-      }
-    )
+    p_all.then((suc) => {
+    
+      res.json({ code: 200, msg: '查询成功', data: suc[0] })
+      return
+    }).catch((err) => {
+      console.log('err all:' + err)
+      res.json({ code: 600, msg: '查询出错', data: err })
+      return
+    })
 
   })
+
+
 
   //人员管理=======================================
   //查询人员————完成
   app.get('/repair/app/getPersonList', function (req, res) {
     
-    let personBean = [];
+    let PersonBean = [];
     const param = {};
-    if(req.query.centerName!=undefined) param.center_name = req.query.centerName;
-    console.log(param)
-    // repair
-    const getPersonBean = new Promise((resolve, reject) => {
+
+	if(req.query.nick_name!=undefined) {
+      param.nick_name = req.query.nick_name;
+    }
+	
+    const getpersonBean = new Promise((resolve, reject) => {
       db.person.find(
         param,
         {__v:0},
@@ -284,17 +320,16 @@ module.exports = function (app) {
         })
     })
 
-    const p_all = Promise.all([getPersonBean])
+    const p_all = Promise.all([getpersonBean])
 
     p_all.then((suc) => {
-      let data = {
-        "personBean": suc[0]
-      }
+      let data =  suc[0]
+      
       res.json({ code: 200, msg: '查询成功', data: data })
       return
     }).catch((err) => {
       console.log('err all:' + err)
-      res.json({ code: 600, msg: '查询出错', data: data })
+      res.json({ code: 600, msg: '查询出错', data: err })
       return
     })
   })
@@ -343,73 +378,7 @@ module.exports = function (app) {
     )
   })
 
-  //联社中心==========================================完成了！！！
-  //获取联社中心列表--完成
-  app.get('/repair/app/getCenterList', function (req, res) {
-    let centerBean = [];
-
-    // center
-    const getCenter = new Promise((resolve, reject) => {
-      db.center.find(
-        {},
-        {__v:0},
-        function (err, doc) {
-          if (err) {
-            console.log('center find error!');
-            reject('reject center')
-          } else {
-            if (!doc) {
-              centerBean = [];
-            } else {
-              centerBean = doc;
-            }
-            resolve(centerBean)
-          }
-        })
-    })
-
-    const p_all = Promise.all([getCenter])
-
-    p_all.then((suc) => {
-      let data = {
-        "CenterBean": suc[0]
-      }
-      res.json({ code: 200, msg: '查询成功', data: data })
-      return
-    }).catch((err) => {
-      console.log('err all:' + err)
-      res.json({ code: 600, msg: '查询出错', data: data })
-      return
-    })
-
-  })
-  //删除中心记录————完成
-  app.get('/repair/app/deleteCenterRecord', function (req, res) {
-      db.center.findByIdAndRemove(
-        req.query._id,
-        function(err,doc){
-          if(err){
-            res.json({code:700,msg:'删除失败'})
-          }else{
-            res.json({code:200,msg:'删除成功'})
-          }
-        }
-      )
-  })
-  //增加中心记录————完成
-  app.get('/repair/app/addCenterRecord', function (req, res) {
-    db.center.create(
-      {center_name:req.query.center_name},
-      function(err,doc){
-        if(err){
-          res.json({code:700,msg:'添加失败'})
-        }else{
-          res.json({code:200, msg:'添加成功'})
-        }
-      }
-      )
-  })
-
+  
   //设备详细=====================================完成了！！！
   //查询设备详细————完成
   app.get('/repair/app/getDeviceList', function (req, res) {
@@ -436,18 +405,18 @@ module.exports = function (app) {
     const p_all = Promise.all([getDevice])
 
     p_all.then((suc) => {
-      let data = {
-        "DeviceBean": suc[0]
-      }
-      res.json({ code: 200, msg: '查询成功', data: data })
+      
+      res.json({ code: 200, msg: '查询成功', data: suc[0] })
       return
     }).catch((err) => {
       console.log('err all:' + err)
-      res.json({ code: 600, msg: '查询出错', data: data })
+      res.json({ code: 600, msg: '查询出错', data: err })
       return
     })
 
   })
+  
+  
   //增加设备详细————完成
   app.get('/repair/app/addDevice', function (req, res) {
     db.device.create(
@@ -464,142 +433,6 @@ module.exports = function (app) {
   //删除设备详细————完成
   app.get('/repair/app/deleteDevice', function (req, res) {
     db.device.findByIdAndRemove(
-      req.query._id,
-      function(err,doc){
-        if(err){
-          res.json({code:700,msg:'删除失败'})
-        }else{
-          res.json({code:200,msg:'删除成功'})
-        }
-      }
-    )
-  })
-
-  //维修项目明细====================================完成了！！！
-  //查询可选择的项目详细————完成
-  app.get('/repair/app/getProjectList', function (req, res) {
-    let projectBean = [];
-
-    // project
-    const getProject = new Promise((resolve, reject) => {
-      db.project.find(
-        {},
-        function (err, doc) {
-          if (err) {
-            console.log('project find error!');
-            reject('reject project')
-          } else {
-            if (!doc) {
-              projectBean = [];
-            } else {
-              projectBean = doc;
-            }
-            resolve(projectBean)
-          }
-        })
-    })
-
-    const p_all = Promise.all([getProject])
-
-    p_all.then((suc) => {
-      let data = {
-        "ProjectBean": suc[0]
-      }
-      res.json({ code: 200, msg: '查询成功', data: data })
-      return
-    }).catch((err) => {
-      console.log('err all:' + err)
-      res.json({ code: 600, msg: '查询出错', data: data })
-      return
-    })
-
-  })
-  //增加项目详细————完成
-  app.get('/repair/app/addProject', function (req, res) {
-    db.project.create(
-      {project_name:req.query.project_name},
-      function(err,doc){
-        if(err){
-          res.json({code:700,msg:'添加失败'})
-        }else{
-          res.json({code:200, msg:'添加成功'})
-        }
-      }
-      )
-  })
-  //删除设备详细————完成
-  app.get('/repair/app/deleteProject', function (req, res) {
-    db.project.findByIdAndRemove(
-      req.query._id,
-      function(err,doc){
-        if(err){
-          res.json({code:700,msg:'删除失败'})
-        }else{
-          res.json({code:200,msg:'删除成功'})
-        }
-      }
-    )
-  })
-
-  //维修网点明细====================================完成了！！
-  //查询网点详细————完成
-  app.get('/repair/app/getSiteList', function (req, res) {
-    let siteBean = [];
-    let param = {};
-    if(req.query.site_property!=undefined){
-      param.site_property=req.query.site_property;
-    }
-    // site
-    const getSite = new Promise((resolve, reject) => {
-      db.site.find(
-        param,
-        function (err, doc) {
-          if (err) {
-            console.log('site find error!');
-            reject('reject site')
-          } else {
-            if (!doc) {
-              siteBean = [];
-            } else {
-              siteBean = doc;
-            }
-            resolve(siteBean)
-          }
-        })
-    })
-
-    const p_all = Promise.all([getSite])
-
-    p_all.then((suc) => {
-      let data = {
-        "SiteBean": suc[0]
-      }
-      res.json({ code: 200, msg: '查询成功', data: data })
-      return
-    }).catch((err) => {
-      console.log('err all:' + err)
-      res.json({ code: 600, msg: '查询出错', data: data })
-      return
-    })
-
-  })
-  //增加网点详细————完成
-  app.get('/repair/app/addSite', function (req, res) { 
-    db.site.create(
-      {site_name:req.query.site_name,
-      site_property:req.query.site_property},
-      function(err,doc){
-        if(err){
-          res.json({code:700,msg:'添加失败'})
-        }else{
-          res.json({code:200, msg:'添加成功'})
-        }
-      }
-      )
-  })
-  //删除网点详细————完成
-  app.get('/repair/app/deleteSite', function (req, res) {
-    db.site.findByIdAndRemove(
       req.query._id,
       function(err,doc){
         if(err){
