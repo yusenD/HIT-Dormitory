@@ -1,22 +1,16 @@
 package com.icephone.yuhao.repairerecord;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.icephone.yuhao.repairerecord.Util.StringConstant;
 import com.icephone.yuhao.repairerecord.Util.ToastUtil;
 import com.icephone.yuhao.repairerecord.Util.UserInfoUtil;
 import com.icephone.yuhao.repairerecord.view.BaseActivity;
-import com.icephone.yuhao.repairerecord.view.CenterListActivity;
-import com.icephone.yuhao.repairerecord.view.InstallRecordDetailActivity;
 import com.icephone.yuhao.repairerecord.view.ManageFittingActivity;
 import com.icephone.yuhao.repairerecord.view.ManagePeopleActivity;
-import com.icephone.yuhao.repairerecord.view.ManageRepairProActivity;
-import com.icephone.yuhao.repairerecord.view.ManageSiteActivity;
 import com.icephone.yuhao.repairerecord.view.RecordDetailActivity;
-import com.icephone.yuhao.repairerecord.view.SearchInstallActivity;
+import com.icephone.yuhao.repairerecord.view.ResultActivity;
 import com.icephone.yuhao.repairerecord.view.SearchRecordActivity;
-import com.icephone.yuhao.repairerecord.view.UnrepairRecordActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -32,7 +26,30 @@ public class MainActivity extends BaseActivity {
     //待维修记录
     @OnClick(R.id.cv_search_install)
     void searchNotFix() {
-        openActivity(UnrepairRecordActivity.class);
+
+        String centerNameSearch, startTimeSearch, endTimeSearch,curStateSearch,siteNameSearch;
+
+        if(UserInfoUtil.isStudent(this)){
+            centerNameSearch = UserInfoUtil.getDormitoryName(this);
+            siteNameSearch = UserInfoUtil.getSiteName(this);
+        } else{
+            centerNameSearch = StringConstant.NULL_STRING;
+            siteNameSearch = StringConstant.NULL_STRING;
+        }
+
+        curStateSearch = "未维修";
+        startTimeSearch = StringConstant.NULL_STRING;
+        endTimeSearch = StringConstant.NULL_STRING;
+
+        Bundle bundle = new Bundle();
+
+        bundle.putString(StringConstant.KEY_SEARCH_DORMITORY_NAME,centerNameSearch);
+        bundle.putString(StringConstant.KEY_SEARCH_SITE_NAME,siteNameSearch);
+        bundle.putString(StringConstant.KEY_SEARCH_CUR_STATE,curStateSearch);
+        bundle.putString(StringConstant.KEY_SEARCH_START_TIME, startTimeSearch);
+        bundle.putString(StringConstant.KEY_SEARCH_END_TIME, endTimeSearch);
+
+        openActivity(ResultActivity.class, bundle);
     }
 
     //申请维修
@@ -45,7 +62,6 @@ public class MainActivity extends BaseActivity {
         }else{
             ToastUtil.showToastShort(this,"无权进行查看");
         }
-
     }
 
     //人员管理

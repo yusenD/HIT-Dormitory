@@ -16,7 +16,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.UnrepairRecordActivity"></activity>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,13 +32,11 @@
         <activity android:name=".view.ManagePeopleActivity" />
         <activity android:name=".view.ManageRepairProActivity" />
         <activity android:name=".view.ManageSiteActivity" />
-        <activity android:name=".view.InstallRecordDetailActivity" />
         <activity android:name=".view.ManageFittingActivity" />
         <activity android:name=".view.PeopleDetailActivity" /> <!-- <activity -->
         <!-- android:name=".LoginActivity" -->
         <!-- android:label="@string/title_activity_login"></activity> -->
-        <activity android:name=".view.SearchInstallActivity" />
-        <activity android:name=".view.ResultInstallActivity" />
+
     </application>
 
 </manifest>

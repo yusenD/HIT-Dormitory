@@ -105,4 +105,5 @@ public class PeopleBean {
             this.manage_center = manage_center;
         }
     }
+
 }

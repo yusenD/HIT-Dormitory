@@ -23,10 +23,6 @@ public class AdapterFacory {
         return new DeviceAdapter(R.layout.layout_simple_item, data);
     }
 
-    public static InstallRecordAdapter getInstallRecordAdapter(int layoutResId, @Nullable List<InstallRecordBean.DataBean> data) {
-        return new InstallRecordAdapter(layoutResId, data);
-    }
-
     public static CenterAdapter getCenterAdapter(@Nullable List<CenterBean.DataBean> data) {
         return new CenterAdapter(R.layout.layout_simple_item, data);
     }
