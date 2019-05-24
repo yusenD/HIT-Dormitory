@@ -2,61 +2,46 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 //const DB_URL = 'mongodb://127.0.0.1:27017/repairdb';
-const DB_URL = 'mongodb://repairOwner:guhonganfang@127.0.0.1:27017/repairdb'
+const DB_URL = 'mongodb://127.0.0.1:27017/repairdb'
 
 // 中心的数据结构模型
-const centerSchema = new Schema({
-    center_name:String
+const dormitorySchema = new Schema({
+    dormitory_name:String,
+	dormitory_num:Number
 })
+
+
 // 设备详细--模型
 const deviceSchema = new Schema({
     device_name:String
 })
-// 安装--模型
-const installSchema = new Schema({
-    time:String,
-    center_name:String,
-    site_name:String,
-    site_person:String,
-    install_person:String,
-    install_pro:String,
-    device:String,
-    install_state:String,
-    install_complete:Number,
-    install_cost:String,
-})
-// 人员--模型
+
+// 人员--模型  绑定了公寓信息和宿舍信息
 const personSchema = new Schema({
     nick_name:String,
     account:String,
     password:String,
-    limit:Number,
-    manage_center:String,
+    permission:String,
+	site_name:String,
+	dormitory_name:String
 })
-// 项目--模型
-const projectSchema = new Schema({
-    project_name:String,
-})
+
 
 // 维修记录——模型
 const repairSchema = new Schema({
-  time: String,
-  site_name: String,
-  repair_pro: String,
-  repair_person: String,
-  site_person: String,
-  center_name: String,
-  device:String,
-  fix_state:String,
-  return_fix:Number,
-  fix_cost:String,
-  return_time:String,
+  start_time: String,
+  end_time: String,   
+  site_name: String,   //宿舍号
+  repair_person: String,  //维修人员名称
+  site_person: String,//申请维修学生名称
+  dormitory_name: String, //公寓号
+  device:String,   //维修项目
+  repair_state:String,  //维修状态
+  fix_state:String,        //维修详情
+  person_phone:String,
+  repair_reverse:String
 })
-// 网点--模型
-const siteSchema = new Schema({
-    site_name:String,
-    site_property:String,
-})
+
 
 mongoose.set('useFindAndModify', false)
 mongoose.Promise = global.Promise;
@@ -72,12 +57,9 @@ database.once('open', function(){
 })
 
 const db = {
-  center: mongoose.model('centers', centerSchema),
-  repair: mongoose.model('repairs', repairSchema),
+  dormitory: mongoose.model('dormitorys', dormitorySchema),
+  repair: mongoose.model('repair_records', repairSchema),
   device: mongoose.model('devices', deviceSchema),
-  install: mongoose.model('installs', installSchema),
-  project: mongoose.model('projects', projectSchema),
-  site: mongoose.model('sites', siteSchema),
   person: mongoose.model('persons', personSchema),
 }
 
