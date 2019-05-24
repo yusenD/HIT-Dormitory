@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.icephone.yuhao.repairerecord.R;
@@ -34,18 +35,44 @@ public class SearchRecordActivity extends BaseActivity {
     TextView tvStartTime;
     @BindView(R.id.tv_end_time)
     TextView tvEndTime;
+    @BindView(R.id.tv_cur_state)
+    TextView tvCurState;
+    @BindView(R.id.et_site_name)
+    EditText etSiteName;
 
-    private String[] centerItem; //联社列表
+    private String[] centerItem; //寝室列表
+    private String[] stateItem = {"已完成","未维修"};
+
+    @OnClick(R.id.rl_cur_state)
+    void chooseCurState(){
+        DialogUtil.showSingleChooseDialog(this, "选择维修状态", stateItem,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                },
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        tvCurState.setText(stateItem[which]);
+                        curState = stateItem[which];
+                    }
+                }
+
+        );
+    }
 
     @OnClick(R.id.rl_center_name)
     void chooseCenterName() {
         if (centerItem == null) {
             getCenterList();
         }else{
-            if (UserInfoUtil.isCenterManager(getApplicationContext())) {
-                ToastUtil.showToastShort(SearchRecordActivity.this, "只能选择查看自己管理的联社");
+            if (UserInfoUtil.isStudent(getApplicationContext())) {
+                ToastUtil.showToastShort(SearchRecordActivity.this, "只能选择查看自己的寝室");
             }else{
-                DialogUtil.showSingleChooseDialog(this, "选择联社", centerItem,
+                DialogUtil.showSingleChooseDialog(this, "选择公寓", centerItem,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -95,9 +122,16 @@ public class SearchRecordActivity extends BaseActivity {
     @OnClick(R.id.bt_search)
     void searchRecord() {
         Bundle bundle = new Bundle();
-        bundle.putString(StringConstant.KEY_SEARCH_CENTER_NAME,centerName);
+        if(!etSiteName.getText().toString().isEmpty()){
+            siteName = etSiteName.getText().toString();
+        }
+
+        bundle.putString(StringConstant.KEY_SEARCH_DORMITORY_NAME,centerName);
+        bundle.putString(StringConstant.KEY_SEARCH_SITE_NAME,siteName);
+        bundle.putString(StringConstant.KEY_SEARCH_CUR_STATE,curState);
         bundle.putString(StringConstant.KEY_SEARCH_START_TIME, startTime);
         bundle.putString(StringConstant.KEY_SEARCH_END_TIME, endTime);
+        
         openActivity(ResultActivity.class, bundle);
     }
 
@@ -108,8 +142,10 @@ public class SearchRecordActivity extends BaseActivity {
 
     private Calendar calendar;
     private String centerName = StringConstant.NULL_STRING;
+    private String curState = StringConstant.NULL_STRING;
     private String startTime = StringConstant.NULL_STRING;
     private String endTime = StringConstant.NULL_STRING;
+    private String siteName = StringConstant.NULL_STRING;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,9 +159,13 @@ public class SearchRecordActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        if (UserInfoUtil.isCenterManager(getApplicationContext())) {
-            centerName = UserInfoUtil.getManageCenter(getApplicationContext());
+        if (UserInfoUtil.isStudent(getApplicationContext())) {
+            centerName = UserInfoUtil.getDormitoryName(getApplicationContext());
+            siteName = UserInfoUtil.getSiteName(getApplicationContext());
             tvCenterName.setText(centerName);
+            etSiteName.setText(siteName);
+            etSiteName.setClickable(false);
+            etSiteName.setFocusable(false);
         }
     }
 
@@ -149,13 +189,13 @@ public class SearchRecordActivity extends BaseActivity {
                         }
                     }
                 } else {
-                    ToastUtil.showToastShort(SearchRecordActivity.this, "获取联社列表失败");
+                    ToastUtil.showToastShort(SearchRecordActivity.this, "获取公寓列表失败");
                 }
             }
 
             @Override
             public void onFail(String msg) {
-                ToastUtil.showToastShort(SearchRecordActivity.this, "获取联社列表失败");
+                ToastUtil.showToastShort(SearchRecordActivity.this, "获取公寓列表失败");
             }
         }, CenterBean.class);
     }

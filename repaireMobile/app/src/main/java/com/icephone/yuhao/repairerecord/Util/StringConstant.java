@@ -19,9 +19,11 @@ public class StringConstant {
     public final static String KEY_TRANSFER_PEOPLE = "people";
 
     //查询记录查询的参数
-    public final static String KEY_SEARCH_CENTER_NAME = "centerName";
+    public final static String KEY_SEARCH_DORMITORY_NAME = "dormitory_name";
     public final static String KEY_SEARCH_START_TIME = "startTime";
     public final static String KEY_SEARCH_END_TIME = "endTime";
+    public final static String KEY_SEARCH_SITE_NAME = "site_name";
+    public final static String KEY_SEARCH_CUR_STATE = "repair_state";
     public final static String NULL_STRING = "x";
 
 

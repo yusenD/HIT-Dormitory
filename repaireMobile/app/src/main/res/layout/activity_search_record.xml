@@ -66,7 +66,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_center_name"
+                    android:id="@+id/tv_cur_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -119,6 +119,34 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/x30"
                     android:src="@drawable/ic_forward" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_marginTop="@dimen/y20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请输入寝室号："
+                android:textSize="@dimen/y26" />
+
+            <RelativeLayout
+                android:id="@+id/rl_site_name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y90"
+                android:layout_marginTop="@dimen/y20"
+                android:background="@drawable/bg_gray_line"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/et_site_name"
+                    android:textSize="@dimen/y28"
+                    android:hint="请输入寝室号"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y90"
+                    android:background="@drawable/bg_gray_line"
+                    android:inputType="number"
+                    android:paddingLeft="@dimen/x20"
+                    android:paddingStart="@dimen/x20" />
 
             </RelativeLayout>
 

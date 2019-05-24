@@ -5,8 +5,8 @@ public class LoginBean {
 
     /**
      * code : 200
-     * msg : 欢迎使用
-     * data : {"_id":"5bdc3efef4d21d91346961b6","nick_name":"陈双才","account":"chenshaungcai","password":"123456","limit":1,"manage_center":"顺平联社"}
+     * msg : 欢迎访问
+     * data : {"_id":"5ce11afdd7ad22118c3e204f","account":"8_569","site_name":"666","manage_center":"","permission":0,"nick_name":"","dormitory_name":"八公寓","password":"6_666"}
      */
 
     private int code;
@@ -39,20 +39,23 @@ public class LoginBean {
 
     public static class DataBean {
         /**
-         * _id : 5bdc3efef4d21d91346961b6
-         * nick_name : 陈双才
-         * account : chenshaungcai
-         * password : 123456
-         * limit : 1
-         * manage_center : 顺平联社
+         * _id : 5ce11afdd7ad22118c3e204f
+         * account : 8_569
+         * site_name : 666
+         * manage_center :
+         * permission : 0
+         * nick_name :
+         * dormitory_name : 八公寓
+         * password : 6_666
          */
 
         private String _id;
-        private String nick_name;
         private String account;
+        private String site_name;
+        private int permission;
+        private String nick_name;
+        private String dormitory_name;
         private String password;
-        private String limit;
-        private String manage_center;
 
         public String get_id() {
             return _id;
@@ -60,14 +63,6 @@ public class LoginBean {
 
         public void set_id(String _id) {
             this._id = _id;
-        }
-
-        public String getNick_name() {
-            return nick_name;
-        }
-
-        public void setNick_name(String nick_name) {
-            this.nick_name = nick_name;
         }
 
         public String getAccount() {
@@ -78,28 +73,44 @@ public class LoginBean {
             this.account = account;
         }
 
+        public String getSite_name() {
+            return site_name;
+        }
+
+        public void setSite_name(String site_name) {
+            this.site_name = site_name;
+        }
+
+        public int getPermission() {
+            return permission;
+        }
+
+        public void setPermission(int permission) {
+            this.permission = permission;
+        }
+
+        public String getNick_name() {
+            return nick_name;
+        }
+
+        public void setNick_name(String nick_name) {
+            this.nick_name = nick_name;
+        }
+
+        public String getDormitory_name() {
+            return dormitory_name;
+        }
+
+        public void setDormitory_name(String dormitory_name) {
+            this.dormitory_name = dormitory_name;
+        }
+
         public String getPassword() {
             return password;
         }
 
         public void setPassword(String password) {
             this.password = password;
-        }
-
-        public String getLimit() {
-            return limit;
-        }
-
-        public void setLimit(String limit) {
-            this.limit = limit;
-        }
-
-        public String getManage_center() {
-            return manage_center;
-        }
-
-        public void setManage_center(String manage_center) {
-            this.manage_center = manage_center;
         }
     }
 }

@@ -10,19 +10,23 @@ public class UserInfoUtil {
     private final static String KEY_USER_ID = "id";
     private final static String KEY_USER_NICK_NAME = "nickname";
     private final static String KEY_USER_ACCOUNT = "account";
-    private final static String KEY_USER_LIMIT = "limit";
-    private final static String KEY_MANAGE_CENTER = "center";
+    private final static String KEY_USER_PASSWORD = "password";
+    private final static String KEY_USER_PERMISSION = "limit";
+    private final static String KEY_DORMITORY = "dormitory"; //学生公寓名
+    private final static String KEY_SITE_NAME = "site_name"; //学生宿舍号
 
     public final static String LIMIT_SUPER_MANAGER = "总管理员";
-    public final static String LIMIT_MANAGER = "联社管理员";
+    public final static String LIMIT_STUDENT = "学生";
     public final static String LIMIT_REPAIR_MAN = "维修人员";
 
     public static void saveUserInfo(Context context, LoginBean.DataBean bean) {
         SharedPerferenceUtils.setParam(context, KEY_USER_ID, bean.get_id());
         SharedPerferenceUtils.setParam(context, KEY_USER_ACCOUNT, bean.getAccount());
+        SharedPerferenceUtils.setParam(context,KEY_USER_PASSWORD,bean.getPassword());
         SharedPerferenceUtils.setParam(context, KEY_USER_NICK_NAME, bean.getNick_name());
-        SharedPerferenceUtils.setParam(context, KEY_USER_LIMIT, bean.getLimit());
-        SharedPerferenceUtils.setParam(context,KEY_MANAGE_CENTER,bean.getManage_center());
+        SharedPerferenceUtils.setParam(context, KEY_USER_PERMISSION, bean.getPermission());
+        SharedPerferenceUtils.setParam(context,KEY_DORMITORY,bean.getDormitory_name());
+        SharedPerferenceUtils.setParam(context,KEY_SITE_NAME,bean.getSite_name());
     }
 
     public static String getUserName(Context context) {
@@ -33,8 +37,16 @@ public class UserInfoUtil {
         return (String) SharedPerferenceUtils.getParam(context, KEY_USER_ACCOUNT, "");
     }
 
-    public static String getManageCenter(Context context) {
-        return (String) SharedPerferenceUtils.getParam(context, KEY_MANAGE_CENTER, "");
+    public static String getUserPassword(Context context){
+        return (String) SharedPerferenceUtils.getParam(context, KEY_USER_PASSWORD, "");
+    }
+
+    public static String getDormitoryName(Context context){
+        return (String) SharedPerferenceUtils.getParam(context, KEY_DORMITORY, "");
+    }
+
+    public static String getSiteName(Context context){
+        return (String) SharedPerferenceUtils.getParam(context, KEY_SITE_NAME, "");
     }
 
     /**
@@ -43,7 +55,7 @@ public class UserInfoUtil {
      * @return
      */
     public static boolean isSuperManager(Context context) {
-        String limit = (String) SharedPerferenceUtils.getParam(context, KEY_USER_LIMIT, "");
+        String limit = (String) SharedPerferenceUtils.getParam(context, KEY_USER_PERMISSION, "");
         return limit.equals(LIMIT_SUPER_MANAGER) ;
     }
 
@@ -53,18 +65,18 @@ public class UserInfoUtil {
      * @return
      */
     public static boolean isRepairMan(Context context) {
-        String limit = (String) SharedPerferenceUtils.getParam(context, KEY_USER_LIMIT, "");
+        String limit = (String) SharedPerferenceUtils.getParam(context, KEY_USER_PERMISSION, "");
         return limit.equals(LIMIT_REPAIR_MAN) ;
     }
 
     /**
-     * 判断是不是联社管理员
+     * 判断是不是学生
      * @param context
      * @return
      */
-    public static boolean isCenterManager(Context context) {
-        String limit = (String) SharedPerferenceUtils.getParam(context, KEY_USER_LIMIT, "");
-        return limit.equals(LIMIT_MANAGER) ;
+    public static boolean isStudent(Context context) {
+        String limit = (String) SharedPerferenceUtils.getParam(context, KEY_USER_PERMISSION, "");
+        return limit.equals(LIMIT_STUDENT) ;
     }
 
 }
