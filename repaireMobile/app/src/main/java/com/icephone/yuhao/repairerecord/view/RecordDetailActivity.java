@@ -319,6 +319,7 @@ public class RecordDetailActivity extends BaseActivity {
                 ivDelete.setVisibility(View.GONE);
                 ivEdit.setVisibility(View.GONE);
                 btSubmit.setVisibility(View.VISIBLE);
+                repairCard.setVisibility(View.VISIBLE);
                 addRecordView();
                 break;
             case StringConstant.KEY_FIX_MODE:
