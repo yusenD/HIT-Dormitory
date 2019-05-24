@@ -411,6 +411,12 @@ public class RecordDetailActivity extends BaseActivity {
      * 查看记录，把传过来的数据更新到View
      */
     public void putDataToView() {
+
+        if(!UserInfoUtil.isStudent(this)){
+            ivEdit.setVisibility(View.VISIBLE);
+            ivDelete.setVisibility(View.VISIBLE);
+        }
+
         RepairRecordBean.DataBean bean = (RepairRecordBean.DataBean) getIntent().getSerializableExtra(StringConstant.KEY_TRANSFER_RECORD);
 
         _id = bean.get_id();
