@@ -2,12 +2,13 @@ package com.icephone.yuhao.repairerecord.bean;
 
 import java.util.List;
 
+// 维修项目
 public class DeviceBean {
 
     /**
      * code : 200
      * msg : 查询成功
-     * data : [{"_id":"5bdc3ea4f4d21d91346961b2","device_name":"红外摄像机"},{"_id":"5bdc3eacf4d21d91346961b3","device_name":"柜员枪机"},{"_id":"5bdc3eb6f4d21d91346961b4","device_name":"网线"}]
+     * data : [{"_id":"5ce15c3d5d8c892a2cdabf7f","device_name":"喵喵锤","__v":0},{"_id":"5ce4baca9928a6333457e7e1","device_name":"MK50","__v":0}]
      */
 
     private int code;
@@ -40,12 +41,14 @@ public class DeviceBean {
 
     public static class DataBean {
         /**
-         * _id : 5bdc3ea4f4d21d91346961b2
-         * device_name : 红外摄像机
+         * _id : 5ce15c3d5d8c892a2cdabf7f
+         * device_name : 喵喵锤
+         * __v : 0
          */
 
         private String _id;
         private String device_name;
+        private int __v;
 
         public String get_id() {
             return _id;
@@ -61,6 +64,14 @@ public class DeviceBean {
 
         public void setDevice_name(String device_name) {
             this.device_name = device_name;
+        }
+
+        public int get__v() {
+            return __v;
+        }
+
+        public void set__v(int __v) {
+            this.__v = __v;
         }
     }
 }
