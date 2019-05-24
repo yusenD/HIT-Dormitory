@@ -3,11 +3,10 @@ package com.icephone.yuhao.repairerecord.bean;
 import java.util.List;
 
 public class CenterBean {
-
     /**
      * code : 200
      * msg : 查询成功
-     * data : [{"_id":"5bcc5f80775c42d5c848002b","center_name":"满城联社"},{"_id":"5bcc5f89775c42d5c848002c","center_name":"清苑联社"},{"_id":"5bdc3e38f4d21d91346961ac","center_name":"望都联社"},{"_id":"5bdc3e47f4d21d91346961ad","center_name":"博野联社"},{"_id":"5bdc3e4cf4d21d91346961ae","center_name":"涞源联社"},{"_id":"5bdc3e50f4d21d91346961af","center_name":"曲阳联社"},{"_id":"5bdc3e60f4d21d91346961b1","center_name":"顺平联社"}]
+     * data : [{"_id":"5ce12e6cd7ad2204a07aaf3a","dormitory_name":"二公寓","dormitory_number":2},{"_id":"5ce12e6cd7ad2204a07aaf3b","dormitory_name":"三公寓","dormitory_number":3},{"_id":"5ce12e6cd7ad2204a07aaf3c","dormitory_name":"四公寓","dormitory_number":4}]
      */
 
     private int code;
@@ -40,12 +39,14 @@ public class CenterBean {
 
     public static class DataBean {
         /**
-         * _id : 5bcc5f80775c42d5c848002b
-         * center_name : 满城联社
+         * _id : 5ce12e6cd7ad2204a07aaf3a
+         * dormitory_name : 二公寓
+         * dormitory_number : 2
          */
 
         private String _id;
-        private String center_name;
+        private String dormitory_name;
+        private int dormitory_number;
 
         public String get_id() {
             return _id;
@@ -55,12 +56,20 @@ public class CenterBean {
             this._id = _id;
         }
 
-        public String getCenter_name() {
-            return center_name;
+        public String getDormitory_name() {
+            return dormitory_name;
         }
 
-        public void setCenter_name(String center_name) {
-            this.center_name = center_name;
+        public void setDormitory_name(String dormitory_name) {
+            this.dormitory_name = dormitory_name;
+        }
+
+        public int getDormitory_number() {
+            return dormitory_number;
+        }
+
+        public void setDormitory_number(int dormitory_number) {
+            this.dormitory_number = dormitory_number;
         }
     }
 }

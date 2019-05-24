@@ -2,6 +2,7 @@ package com.icephone.yuhao.repairerecord.bean;
 
 import java.util.List;
 
+// 选择公寓
 public class SiteBean {
 
 
