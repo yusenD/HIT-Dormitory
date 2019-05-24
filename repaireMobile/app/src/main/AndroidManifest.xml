@@ -29,7 +29,6 @@
         <activity android:name=".view.ResultActivity" />
         <activity android:name=".view.SuccessActivity" />
         <activity android:name=".view.ManagePeopleActivity" />
-        <activity android:name=".view.ManageRepairProActivity" />
         <activity android:name=".view.ManageFittingActivity" />
         <activity android:name=".view.PeopleDetailActivity" /> <!-- <activity -->
         <!-- android:name=".LoginActivity" -->

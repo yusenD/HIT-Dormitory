@@ -17,7 +17,7 @@ public class CenterAdapter extends BaseQuickAdapter<CenterBean.DataBean,BaseView
 
     @Override
     protected void convert(BaseViewHolder helper, CenterBean.DataBean item) {
-        helper.setText(R.id.tv_name, item.getCenter_name());
+        helper.setText(R.id.tv_name, item.getDormitory_name());
     }
 
 }

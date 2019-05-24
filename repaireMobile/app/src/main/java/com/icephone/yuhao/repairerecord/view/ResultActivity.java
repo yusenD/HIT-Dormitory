@@ -1,40 +1,29 @@
 package com.icephone.yuhao.repairerecord.view;
 
-import android.Manifest;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.icephone.yuhao.repairerecord.R;
-import com.icephone.yuhao.repairerecord.Util.OutputEXLUtil;
 import com.icephone.yuhao.repairerecord.Util.StringConstant;
-import com.icephone.yuhao.repairerecord.Util.TimeUtil;
 import com.icephone.yuhao.repairerecord.Util.ToastUtil;
-import com.icephone.yuhao.repairerecord.Util.UserInfoUtil;
 import com.icephone.yuhao.repairerecord.adapter.AdapterFacory;
 import com.icephone.yuhao.repairerecord.adapter.RepairRecordAdapter;
-import com.icephone.yuhao.repairerecord.bean.CenterBean;
-import com.icephone.yuhao.repairerecord.bean.GetResultBean;
 import com.icephone.yuhao.repairerecord.bean.RepairRecordBean;
 import com.icephone.yuhao.repairerecord.net.ApiBuilder;
 import com.icephone.yuhao.repairerecord.net.ApiClient;
 import com.icephone.yuhao.repairerecord.net.CallBack;
 import com.icephone.yuhao.repairerecord.net.URLConstant;
-import com.kaopiz.kprogresshud.KProgressHUD;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import pub.devrel.easypermissions.EasyPermissions;
 
 public class ResultActivity extends BaseActivity {
 
