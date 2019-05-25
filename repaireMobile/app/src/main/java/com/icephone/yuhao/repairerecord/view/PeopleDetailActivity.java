@@ -38,7 +38,7 @@ public class PeopleDetailActivity extends BaseActivity {
     //选择人员权限身份
     @OnClick(R.id.rl_person_limit)
     void chooseLimit() {
-        final String[] item = {"维修人员", "联社管理员", "总管理员"};
+        final String[] item = {"维修人员", "学生", "总管理员"};
         DialogUtil.showSingleChooseDialog(this, "选择权限", item,
                 new DialogInterface.OnClickListener() {
                     @Override
