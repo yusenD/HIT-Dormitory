@@ -9,56 +9,46 @@ module.exports = function (app) {
   app.all("*", function (req, res, next) {
     next();
   });
-
-  // api login
- 
-
+  
+    // api login
   app.get('/repair/app/login', function (req, res) {
-    
-    let repairBean = [];
-    const param = {};
-	if (req.query.account != undefined) param.account=req.query.account;
-    const getrepairBean = new Promise((resolve, reject) => {
-      db.person.find(
-        param,
-        {__v:0},
-        function (err, doc) {
-          if (err) {
-            console.log('User find error!')
-            reject('reject repairPerson')
+    // 对发来的登录数据进行验证
+    if (!req.query.account) {
+      res.json({code: 600, msg:'name 不能为空！',data:null})
+      return
+    }
+    if (!req.query.password) {
+      res.json({code: 600, msg:'pwd 不能为空！',data:null})
+      return
+    }
+    db.person.findOne(
+      {account: req.query.account}, 
+      function(err, doc){
+      if (err) {
+        console.log('查询出错：' + err);
+      } else {
+        if (!doc) {
+          res.json({code: 700, msg:'不存在该用户',data:null})
+          return
+        } else {
+          if (req.query.password != doc.password) {
+            res.json({code: 700, msg:'密码不正确',data:null})
+            return
           } else {
-            if (!doc) {
-              repairBean = [];
-            } 
-			else {
-				if (req.query.password != doc[0].password) {
-			
-				res.json({code: 700, msg:'密码不正确'})
-				return
-				} 
-				else {
-				repairBean = doc;
-				}
-				resolve(repairBean)
+            res.json({code: 200, msg:'欢迎使用',data:doc})
+            return
           }
         }
-    })}
-	)
 
-    const p_all = Promise.all([getrepairBean])
-
-    p_all.then((suc) => {
-  
-      res.json({ code: 200, msg: '欢迎访问', data: suc[0] })
-	  return
-          
-    
-    }).catch((err) => {
-      console.log('err all:' + err)
-      res.json({ code: 600, msg: '登录失败', data: data })
-      return
+      }
     })
+    // 查询数据库验证账号、密码
+    // 返回登录状态
+    // res.send(JSON.stringify({code: 200, data: {account: 'guojc', pass: 111111}}))
   })
+
+
+
   
   
   //维修记录================================================================================
@@ -69,16 +59,16 @@ module.exports = function (app) {
     let repairBean = [];
     const param = {};
     const time = {};
-    if (req.query.dormitory_name != undefined) param.dormitory_name = req.query.dormitory_name;
+    if (req.query.dormitory_name != "x") param.dormitory_name = req.query.dormitory_name;
 
-	if (req.query.repair_state != undefined) param.repair_state = req.query.repair_state; 
+	if (req.query.repair_state != "x") param.repair_state = req.query.repair_state; 
 	
-	if (req.query.site_name != undefined) param.site_name = req.query.site_name; 
+	if (req.query.site_name != "x") param.site_name = req.query.site_name; 
 	
-    if(req.query.start_time!=undefined) {
+    if(req.query.start_time!="x") {
       param.start_time = req.query.start_time;
     }
-    if(req.query.end_time!=undefined) {
+    if(req.query.end_time!="x") {
       param.end_time = req.query.end_time;
     }
     console.log(param)
@@ -253,7 +243,7 @@ module.exports = function (app) {
   })
 
   //获取公寓列表
-  app.get('/repair/app/getDormitory', function (req, res) {
+  app.get('/repair/app/getCenterList', function (req, res) {
     let DormitoryBean = [];
 
     const getDormitory = new Promise((resolve, reject) => {

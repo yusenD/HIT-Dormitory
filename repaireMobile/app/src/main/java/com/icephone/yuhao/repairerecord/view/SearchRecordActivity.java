@@ -29,7 +29,7 @@ import butterknife.OnClick;
 
 public class SearchRecordActivity extends BaseActivity {
 
-    @BindView(R.id.tv_center_name)
+    @BindView(R.id.tv_choose_home)
     TextView tvCenterName;
     @BindView(R.id.tv_start_time)
     TextView tvStartTime;

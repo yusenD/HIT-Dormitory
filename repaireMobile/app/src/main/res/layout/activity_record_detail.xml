@@ -21,7 +21,7 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_centerVertical="true"
+                android:layout_centerInParent="true"
                 android:src="@drawable/ic_return" />
 
         </RelativeLayout>
@@ -403,7 +403,7 @@
                         android:textSize="@dimen/y26" />
 
                     <EditText
-                        android:id="@+id/et_repair_state"
+                        android:id="@+id/et_repair_reverse"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/y200"
                         android:layout_marginTop="@dimen/y20"

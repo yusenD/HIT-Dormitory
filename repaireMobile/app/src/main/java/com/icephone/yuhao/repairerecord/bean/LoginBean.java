@@ -2,11 +2,10 @@ package com.icephone.yuhao.repairerecord.bean;
 
 public class LoginBean {
 
-
     /**
      * code : 200
-     * msg : 欢迎访问
-     * data : {"_id":"5ce11afdd7ad22118c3e204f","account":"8_569","site_name":"666","manage_center":"","permission":0,"nick_name":"","dormitory_name":"八公寓","password":"6_666"}
+     * msg : 欢迎使用
+     * data : {"_id":"5ce11afdd7ad22118c3e204f","account":"6_666","site_name":"666","permission":"学生","nick_name":"李一一","dormitory_name":"八公寓","password":"6_666"}
      */
 
     private int code;
@@ -40,11 +39,10 @@ public class LoginBean {
     public static class DataBean {
         /**
          * _id : 5ce11afdd7ad22118c3e204f
-         * account : 8_569
+         * account : 6_666
          * site_name : 666
-         * manage_center :
-         * permission : 0
-         * nick_name :
+         * permission : 学生
+         * nick_name : 李一一
          * dormitory_name : 八公寓
          * password : 6_666
          */

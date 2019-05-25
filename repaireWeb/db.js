@@ -38,7 +38,7 @@ const repairSchema = new Schema({
   device:String,   //维修项目
   repair_state:String,  //维修状态
   fix_state:String,        //维修详情
-  person_phone:String,
+  preson_phone:String,
   repair_reverse:String
 })
 

@@ -2,7 +2,7 @@ package com.icephone.yuhao.repairerecord.net;
 
 public class URLConstant {
 
-    public final static String BASE_URL = "http://47.95.114.59:5000/repair/";
+    public final static String BASE_URL = "http:/10.0.2.2:5000/repair/";
 
     //登录成功
     public final static int SUCCUSS_CODE = 200;

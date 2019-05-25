@@ -64,7 +64,7 @@ public class RecordDetailActivity extends BaseActivity {
     private String start_time = ""; //申请维修时间
     private String end_time = ""; //维修完成时间
     private String repair_state = ""; //未维修
-    private String repair_reverse = ""; //学生评价
+    private String repair_reverse = ""; //
     private String repair_person = ""; //维修人员
     private String device = "";
 
@@ -85,10 +85,17 @@ public class RecordDetailActivity extends BaseActivity {
     ImageView ivEdit;
     @OnClick(R.id.iv_delete)
     void delete(){
-        deleteRecord();
+        DialogUtil.showAlertDialog(this, "确定删除吗", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteRecord();
+            }
+        },null);
+
     }
     @OnClick(R.id.iv_edit)
     void edit(){
+        ToastUtil.showToastShort(this,"修改模式");
         setViewTouchable();
     }
 
@@ -118,8 +125,8 @@ public class RecordDetailActivity extends BaseActivity {
     EditText repairPersonView;
     @BindView(R.id.et_person_phone)
     EditText personPhoneView;
-    @BindView(R.id.et_repair_state)
-    EditText repairStateView;
+    @BindView(R.id.et_repair_reverse)
+    EditText repairReverseView;
     @BindView(R.id.cv_repair_man)
     CardView repairCard;
 
@@ -186,7 +193,7 @@ public class RecordDetailActivity extends BaseActivity {
         }
     }
 
-    @OnClick(R.id.rl_cur_state)
+    @OnClick(R.id.rl_state)
     void chooseCurState() {
         DialogUtil.showSingleChooseDialog(this, "选择维修状态", stateItem,
                 new DialogInterface.OnClickListener() {
@@ -265,9 +272,9 @@ public class RecordDetailActivity extends BaseActivity {
                 url = URLConstant.REPAIR_CHANGE_RECORD;
             }
             jsonObject.put("start_time", start_time);
-            jsonObject.put("person_phone", person_phone);
+            jsonObject.put("preson_phone", person_phone);
             jsonObject.put("site_person", site_person);
-            jsonObject.put("fix_stae", fix_state);
+            jsonObject.put("fix_state", fix_state);
             jsonObject.put("dormitory_name", dormitory_name);
             jsonObject.put("site_name", site_name);
             jsonObject.put("end_time", end_time);
@@ -319,7 +326,8 @@ public class RecordDetailActivity extends BaseActivity {
                 ivDelete.setVisibility(View.GONE);
                 ivEdit.setVisibility(View.GONE);
                 btSubmit.setVisibility(View.VISIBLE);
-                repairCard.setVisibility(View.VISIBLE);
+                repairCard.setVisibility(View.GONE);
+                repair_state = "未维修";
                 addRecordView();
                 break;
             case StringConstant.KEY_FIX_MODE:
@@ -329,6 +337,10 @@ public class RecordDetailActivity extends BaseActivity {
             case StringConstant.KEY_LOOK_MODE:
                 tvTitle.setText("记录详情");
                 btSubmit.setVisibility(View.GONE);
+                if(UserInfoUtil.isStudent(this)){
+                    ivDelete.setVisibility(View.GONE);
+                    ivEdit.setVisibility(View.GONE);
+                }
                 putDataToView();
                 break;
         }
@@ -368,8 +380,8 @@ public class RecordDetailActivity extends BaseActivity {
             ToastUtil.showToastShort(this, "请选择维修项目");
             return false;
         }
-        repair_reverse = fixStateView.getText().toString();
-        if(repair_reverse.equals("")){
+        fix_state = fixStateView.getText().toString();
+        if(fix_state.equals("")){
             ToastUtil.showToastShort(this, "请填写报修详情");
             return false;
         }
@@ -391,9 +403,9 @@ public class RecordDetailActivity extends BaseActivity {
             ToastUtil.showToastShort(this, "请填写维修人");
             return false;
         }
-        fix_state = repairStateView.getText().toString();
-        if(repair_person.equals("")){
-            ToastUtil.showToastShort(this, "请填写维修人");
+        repair_reverse = repairReverseView.getText().toString();
+        if(repair_reverse.equals("")){
+            ToastUtil.showToastShort(this, "请填写维修详情");
             return false;
         }
 
@@ -406,6 +418,13 @@ public class RecordDetailActivity extends BaseActivity {
     public void addRecordView() {
         start_time = TimeUtil.getUploadTime(calendar);
         timeView.setText(TimeUtil.getShowTime(calendar));
+        if(UserInfoUtil.isStudent(this)){
+            rlCenterName.setEnabled(false);
+            siteNameView.setFocusable(false);
+            dormitory_name = UserInfoUtil.getDormitoryName(this);
+            centerNameView.setText(dormitory_name);
+            siteNameView.setText(UserInfoUtil.getSiteName(this));
+        }
     }
 
     /**
@@ -441,10 +460,7 @@ public class RecordDetailActivity extends BaseActivity {
         repairProView.setText(device);
 
         repair_reverse = bean.getRepair_reverse();
-        fixStateView.setText(repair_reverse);
-
-        site_person = bean.getSite_person();
-        sitePersonView.setText(site_person);
+        repairReverseView.setText(repair_reverse);
 
         fix_state = bean.getFix_state();
         fixStateView.setText(fix_state);
@@ -456,14 +472,12 @@ public class RecordDetailActivity extends BaseActivity {
         if(!end_time.equals("")){
             repairTimeView.setText(TimeUtil.transferTimeToShow(start_time));
         }
+
         repair_person = bean.getRepair_person();
         if(!repair_person.equals("")){
             repairPersonView.setText(repair_person);
         }
-        fix_state = bean.getRepair_state();
-        if(!fix_state.equals("")){
-            repairStateView.setText(fix_state);
-        }
+
 
         setViewUntouchable();
     }
@@ -483,7 +497,7 @@ public class RecordDetailActivity extends BaseActivity {
         sitePersonView.setFocusable(false);
         repairPersonView.setFocusable(false);
         personPhoneView.setFocusable(false);
-        repairStateView.setFocusable(false);
+        repairReverseView.setFocusable(false);
     }
 
     /**
@@ -511,8 +525,8 @@ public class RecordDetailActivity extends BaseActivity {
         personPhoneView.setFocusable(true);
         personPhoneView.setFocusableInTouchMode(true);
 
-        repairStateView.setFocusable(true);
-        repairStateView.setFocusableInTouchMode(true);
+        repairReverseView.setFocusable(true);
+        repairReverseView.setFocusableInTouchMode(true);
 
         btSubmit.setVisibility(View.VISIBLE);
     }
